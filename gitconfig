@@ -1,0 +1,45 @@
+[color]
+    ui = auto
+[filter "media"]
+    required = true
+    clean = git media clean %f
+    smudge = git media smudge %f
+[push]
+    default = simple
+[credential]
+    helper = osxkeychain
+[core]
+    pager = diff-so-fancy | less --tabs=4 -RFX
+    excludesfile = /.gitignore_global
+[color "diff-highlight"]
+    oldNormal = red bold
+    oldHighlight = red bold 52
+    newNormal = green bold
+    newHighlight = green bold 22
+[color "diff"]
+    meta = yellow bold
+    commit = green bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+    whitespace = red reverse
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    hide = update-index --assume-unchanged
+    unhide = update-index --no-assume-unchanged
+[user]
+    name = PatTheMav
+    email = PatTheMav@users.noreply.github.com
+    signingkey = CEFD5D83C12A66B3
+[github]
+    user = patthemav
+[commit]
+	gpgsign = true

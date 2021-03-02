@@ -1,0 +1,30 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"AutoDocstring",
+		"BinaryPlist",
+		"BracketHighlighter",
+		"CMake",
+		"Decent Swift Syntax",
+		"Formatter",
+		"FuzzyFileNav",
+		"HexViewer",
+		"LSP",
+		"LSP-css",
+		"LSP-html",
+		"LSP-intelephense",
+		"LSP-json",
+		"LSP-typescript",
+		"LSP-vue",
+		"MarkdownPreview",
+		"NeoVintageous",
+		"Package Control",
+		"plist",
+		"StringEncode"
+	],
+}

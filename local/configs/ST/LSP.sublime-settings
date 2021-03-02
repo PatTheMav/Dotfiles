@@ -1,0 +1,61 @@
+{
+	"auto_complete_triggers":
+	[
+		{
+			"characters": ".",
+			"selector": "source.js"
+		},
+		{
+			"characters": ".",
+			"selector": "source.ts"
+		},
+		{
+			"characters": ".",
+			"selector": "source.python"
+		},
+		{
+			"characters": "$>:\\",
+			"selector": "source.php"
+		}
+	],
+	"clients":
+	{
+		"intelephense-ls":
+		{
+			"enabled": false,
+		},
+		"vscode-css":
+		{
+			"enabled": false
+		},
+		"lsp-tsserver":
+		{
+			"enabled": false
+		},
+		"typescript-language-server":
+		{
+			"enabled": false
+		},
+		"jsts":
+		{
+			"enabled": false
+		},
+		"pyls":
+		{
+			"enabled": false
+		},
+		"lsp-css":
+		{
+			"enabled": false
+		},
+		"lsp-typescript":
+		{
+			"enabled": false
+		},
+		"lsp-vue":
+		{
+			"enabled": false
+		},
+	},
+	"log_debug": false
+}

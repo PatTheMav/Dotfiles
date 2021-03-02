@@ -1,0 +1,109 @@
+{
+	"always_show_minimap_viewport": true,
+	"binary_file_patterns":
+	[
+		"*.jpg",
+		"*.jpeg",
+		"*.png",
+		"*.gif",
+		"*.ttf",
+		"*.tga",
+		"*.dds",
+		"*.ico",
+		"*.eot",
+		"*.pdf",
+		"*.swf",
+		"*.jar",
+		"*.zip"
+	],
+	"bold_folder_labels": true,
+	"ensure_newline_at_eof_on_save": true,
+	"file_exclude_patterns":
+	[
+		"*.pyc",
+		"*.pyo",
+		"*.exe",
+		"*.dll",
+		"*.obj",
+		"*.o",
+		"*.a",
+		"*.lib",
+		"*.so",
+		"*.dylib",
+		"*.ncb",
+		"*.sdf",
+		"*.suo",
+		"*.pdb",
+		"*.idb",
+		".DS_Store",
+		"*.class",
+		"*.psd",
+		"*.db",
+		"*.sublime-workspace",
+		"*._*"
+	],
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".hg",
+		"CVS",
+		"__pycache__"
+	],
+	"font_face": "SF Mono PTM",
+	"font_options":
+	[
+		"gray_antialias",
+		"no_round"
+	],
+	"font_size": 12.6,
+	"highlight_line": true,
+	"ignored_packages":
+	[
+		"BinaryPlist",
+		"BracketHighlighter",
+		"JsPrettier",
+		"LSP",
+		"LSP-css",
+		"LSP-html",
+		"LSP-intelephense",
+		"LSP-json",
+		"LSP-pyright",
+		"LSP-typescript",
+		"LSP-vue",
+		"LSP-yaml",
+		"plist",
+		"python-black",
+		"Vintage",
+		"Vintageous",
+		"x86 and x86_64 Assembly",
+	],
+	"indent_guide_options":
+	[
+		"draw_active"
+	],
+	"line_padding_bottom": 3,
+	"line_padding_top": 3,
+	"neovintageous_build_version": 11100,
+	"open_files_in_new_window": false,
+	"overlay_scroll_bars": "enabled",
+	"rulers":
+	[
+		79,
+		99
+	],
+	"show_encoding": true,
+	"tab_size": 4,
+	"theme": "Adaptive.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": "not_on_caret",
+	"use_tab_stops": true,
+	"vintageous_reset_mode_when_switching_tabs": false,
+	"vintageous_use_ctrl_keys": null,
+	"vintageous_use_super_keys": null,
+	"dark_theme": "Adaptive.sublime-theme",
+	"light_theme": "Default.sublime-theme",
+	"dark_color_scheme": "Packages/Color Scheme - Default/Mariana.sublime-color-scheme",
+	"light_color_scheme": "Packages/Color Scheme - Default/Breakers.sublime-color-scheme",
+	"color_scheme": "Packages/Color Scheme - Default/Mariana.sublime-color-scheme",
+}

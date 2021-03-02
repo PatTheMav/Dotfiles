@@ -1,0 +1,38 @@
+{
+	"bootstrapped": true,
+	"install_prereleases": ["PowerShell"],
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"AutoDocstring",
+		"BinaryPlist",
+		"BracketHighlighter",
+		"CMake",
+		"Decent Swift Syntax",
+		"FuzzyFileNav",
+		"HexViewer",
+		"JsPrettier",
+		"LSP",
+		"LSP-css",
+		"LSP-html",
+		"LSP-intelephense",
+		"LSP-json",
+		"LSP-pyright",
+		"LSP-rust-analyzer",
+		"LSP-typescript",
+		"LSP-vue",
+		"LSP-yaml",
+		"MarkdownPreview",
+		"Minify",
+		"NeoVintageous",
+		"Package Control",
+		"plist",
+		"PowerShell",
+		"python-black",
+		"StringEncode",
+		"x86 and x86_64 Assembly",
+	],
+}

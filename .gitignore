@@ -1,0 +1,31 @@
+#Ignore Finder metadata files
+.DS_Store
+._*
+*.zwc
+Icon*
+.defaults
+.nobrew
+.contact
+
+#No build directories thanks
+build
+# vim bundles are handled by Vundle
+vim/autoload/*
+vim/plugged/*
+vim/view
+vim/.netrw*
+# Ignore contents of config folder
+config/*
+# Ignore package control files from Sublime Text 3
+local/configs/ST/MarkdownPreview.sublime-settings
+local/configs/ST/Package Control.cache
+local/configs/ST/Package Control.cache/*
+local/configs/ST/Package Control.last-run
+local/configs/ST/Package Control.merged-ca-bundle
+local/configs/ST/Package Control.system-ca-bundle
+local/configs/ST/Package Control.user-ca-bundle
+local/configs/ST/*.crt
+local/configs/ST/formatter.assets/*
+# Ignore copyrighted fonts
+# Ignore unencrypted files
+zim/tokens.zsh

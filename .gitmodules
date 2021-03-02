@@ -1,0 +1,36 @@
+[submodule "vim/pack/ptm/start/vim-airline"]
+	path = vim/pack/ptm/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule "vim/pack/ptm/start/base16-vim"]
+	path = vim/pack/ptm/start/base16-vim
+	url = https://github.com/chriskempson/base16-vim.git
+[submodule "vim/pack/ptm/start/vim-airline-themes"]
+	path = vim/pack/ptm/start/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "vim/pack/ptm/start/supertab"]
+	path = vim/pack/ptm/start/supertab
+	url = https://github.com/ervandew/supertab.git
+[submodule "vim/pack/ptm/start/vim-fugitive"]
+	path = vim/pack/ptm/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "vim/pack/ptm/start/tabular"]
+	path = vim/pack/ptm/start/tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule "vim/pack/ptm/start/auto-pairs"]
+	path = vim/pack/ptm/start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs.git
+[submodule "vim/pack/ptm/start/vim-markdown"]
+	path = vim/pack/ptm/start/vim-markdown
+	url = https://github.com/plasticboy/vim-markdown.git
+[submodule "vim/pack/ptm/start/vim-devicons"]
+	path = vim/pack/ptm/start/vim-devicons
+	url = https://github.com/ryanoasis/vim-devicons.git
+[submodule "vim/pack/ptm/start/vim-startify"]
+	path = vim/pack/ptm/start/vim-startify
+	url = https://github.com/mhinz/vim-startify.git
+[submodule "vim/pack/ptm/start/vim-json"]
+	path = vim/pack/ptm/start/vim-json
+	url = https://github.com/elzr/vim-json.git
+[submodule "vim/pack/ptm/opt/vim-cmake"]
+	path = vim/pack/ptm/opt/vim-cmake
+	url = https://github.com/cdelledonne/vim-cmake.git

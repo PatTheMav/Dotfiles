@@ -1,0 +1,37 @@
+[color]
+    ui = auto
+[filter "media"]
+    required = true
+    clean = git media clean %f
+    smudge = git media smudge %f
+[push]
+    default = simple
+[credential]
+    helper = osxkeychain
+[core]
+    excludesfile = /.gitignore_global
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+[delta]
+    plus-style = "syntax #012800"
+    minus-style = "syntax #340001"
+    syntax-theme = Monokai Extended
+    navigate = true
+[interactive]
+    diffFilter = delta --color-only
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    hide = update-index --assume-unchanged
+    unhide = update-index --no-assume-unchanged
+    rclone = clone --recursive
+[user]
+    name = PatTheMav
+    email = PatTheMav@users.noreply.github.com
+    signingkey = CEFD5D83C12A66B3
+[github]
+    user = patthemav
+[commit]
+	gpgsign = true

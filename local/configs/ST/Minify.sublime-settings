@@ -1,0 +1,10 @@
+{
+    "debug_mode": true,
+    "source_map": true,
+    "css_source_map": true,
+    "js_map_content": true,
+    "js_dist_directory": true,
+    "css_dist_directory": true,
+    "uglifyjs_command": "terser",
+    "auto_minify_on_save": false
+}

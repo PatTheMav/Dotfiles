@@ -1,0 +1,28 @@
+#
+# Modules
+#
+
+zmodule patthemav/zimfw-extras
+
+zmodule archive
+zmodule environment
+# zmodule git
+zmodule input
+# zmodule termtitle
+zmodule utility
+# zmodule ssh
+
+# Prompt
+# zmodule git-info
+# zmodule asciiship
+# zmodule patthemav/minimal2
+zmodule romkatv/powerlevel10k
+
+zmodule zsh-users/zsh-completions
+# completion must be sourced after zsh-users/zsh-completions
+zmodule completion
+zmodule zsh-users/zsh-autosuggestions
+# zsh-users/zsh-syntax-highlighting must be sourced after completion
+zmodule zsh-users/zsh-syntax-highlighting
+# zsh-users/zsh-history-substring-search must be sourced after zsh-users/zsh-syntax-highlighting
+zmodule zsh-users/zsh-history-substring-search

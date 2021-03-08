@@ -37,9 +37,11 @@ symlinks = \
 	vimrc \
 	zimrc \
 	zlogin \
+	zlogout \
 	zshrc \
 	zshenv \
 	bash_profile \
+	bash_logout \
 	bashrc \
 	bash_extras \
 	vim \
@@ -86,7 +88,8 @@ apt_packages = git \
 	make \
 	man \
 	mc \
-	diff-so-fancy
+	diff-so-fancy \
+	ripgrep
 
 #############################################################
 # Brew casks

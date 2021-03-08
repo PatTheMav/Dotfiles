@@ -1,4 +1,21 @@
-#!/bin/bash
+MNML_OK_COLOR=${MNML_OK_COLOR:-$(tput setaf 2)}
+MNML_ERR_COLOR=${MNML_ERR_COLOR:-$(tput setaf 7)}
+
+MNML_USER_CHAR=${MNML_USER_CHAR:-'λ'}
+MNML_INSERT_CHAR=${MNML_INSERT_CHAR:-'›'}
+
+# GIT-INFO style settings
+MNML_CLEAN_COLOR=${MNML_CLEAN_COLOR:-$(tput setaf 2)}
+MNML_DIV_COLOR=${MNML_DIV_COLOR:-$(tput setaf 5)}
+MNML_DIRTY_COLOR=${MNML_DIRTY_COLOR:-$(tput setaf 1)}
+MNML_BEHIND_COLOR=${MNML_BEHIND_COLOR:-$(tput setaf 11)}
+MNML_AHEAD_COLOR=${MNML_AHEAD_COLOR:-$(tput setaf 11)}
+
+MNML_AHEAD_CHAR=${MNML_AHEAD_CHAR:-'↑'}
+MNML_BEHIND_CHAR=${MNML_BEHIND_CHAR:-'↓'}
+MNML_DIRTY_CHAR=${MNML_DIRTY_CHAR:-''}
+MNML_CLEAN_CHAR=${MNML_CLEAN_CHAR:-''}
+MNML_DIV_CHAR=${MNML_DIV_CHAR:-''}
 
 function __prompt_setup() {
     function __minimal_cwd() {
@@ -52,19 +69,17 @@ function __prompt_setup() {
     }
 
     function __minimal_setup() {
-      readonly prompt_char="›"
-      readonly user_char=""
-      readonly root_char="#"
-      readonly on_color="$(tput setaf 2)"
-      readonly off_color="$(tput setaf 7)"
-      readonly err_color="$(tput setaf 1)"
-      readonly reset_color="$(tput sgr0)"
-      readonly git_dirty="$(tput setaf 1)"
-      readonly git_clean="$(tput setaf 2)"
-      readonly git_behind="$(tput setaf 11)"
-      readonly git_ahead="$(tput sgr0)"
-      readonly underline="$(tput smul)"
-      readonly underline_reset="$(tput rmul)"
+      root_char="#"
+      on_color="${MNML_OK_COLOR}"
+      off_color="${MNML_ERR_COLOR}"
+      err_color="${MNML_ERR_COLOR}"
+      reset_color="$(tput sgr0)"
+      git_dirty="${MNML_DIRTY_COLOR}"
+      git_clean="${MNML_CLEAN_COLOR}"
+      git_behind="${MNML_BEHIND_COLOR}"
+      git_ahead="${MNML_AHEAD_COLOR}"
+      underline="$(tput smul)"
+      underline_reset="$(tput rmul)"
     }
 
     function __minimal_preexec() {
@@ -75,7 +90,7 @@ function __prompt_setup() {
 
         function prompt_right() {
             #echo -n "$(__minimal_path)$(__minimal_git) "
-            echo -n "$rprompt"
+            echo -n "${rprompt}"
         }
 
         export rprompt="$(__minimal_path) $(__minimal_git)"
@@ -86,8 +101,8 @@ function __prompt_setup() {
     }
 
     function __minimal_user() {
-        [ ${UID} -eq 0 ] && echo -n "$root_char" || echo -n "$user_char"
-        echo -n "\[$reset_color\]\[$underline_reset\] $prompt_char"
+        [ ${UID} -eq 0 ] && echo -n "$root_char" || echo -n "${MNML_USER_CHAR}"
+        echo -n "\[$reset_color\]\[$underline_reset\] ${MNML_INSERT_CHAR}"
     }
 
     function __minimal_jobs() {
@@ -121,15 +136,15 @@ function __prompt_setup() {
       local rs="$(command git status --porcelain -b)"
 
       if $(echo -n "$rs" | grep -v '^##' &> /dev/null); then # is dirty
-        echo -n "\[$git_dirty\]"
+        echo -n "\[$git_dirty\]${MNML_DIRTY_CHAR} "
       elif $(echo -n "$rs" | grep '^## .*diverged' &> /dev/null); then # has diverged
-        echo -n "\[$git_dirty\]"
+        echo -n "\[$git_dirty\]${MNML_DIV_CHAR} "
       elif $(echo -n "$rs" | grep '^## .*behind' &> /dev/null); then # is behind
-        echo -n "\[$git_behind\]↓ "
+        echo -n "\[$git_behind\]${MNML_BEHIND_CHAR} "
       elif $(echo -n "$rs" | grep '^## .*ahead' &> /dev/null); then # is ahead
-        echo -n "\[$git_ahead\]↑ "
+        echo -n "\[$git_ahead\]${MNML_AHEAD_CHAR} "
       else # is clean
-        echo -n "\[$git_clean\]"
+        echo -n "\[$git_clean\]${MNML_CLEAN_CHAR} "
       fi
     }
 

@@ -14,6 +14,7 @@ fi
 # -> Zsh configuration
 # --> History
 setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
 
 # --> Input/output
 KEYTIMEOUT=1
@@ -52,11 +53,11 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 #ZSH_HIGHLIGHT_STYLES[comment]='fg=10'
 
 # -> Initialize modules
-if [[ ${ZDOTDIR:-${HOME}}/.zim/init.zsh -ot ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  # Update static initialization script if it's outdated, before sourcing it
-  source ${ZDOTDIR:-${HOME}}/.zim/zimfw.zsh init -q
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  # Update static initialization script if it does not exist or it's outdated, before sourcing it
+  source ${ZIM_HOME}/zimfw.zsh init -q
 fi
-source ${ZDOTDIR:-${HOME}}/.zim/init.zsh
+source ${ZIM_HOME}/init.zsh
 
 # -> Post-init module configuration
 # --> zsh-history-substring-search

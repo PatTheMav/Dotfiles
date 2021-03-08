@@ -14,7 +14,7 @@ zmodule ssh
 
 # Prompt
 # zmodule git-info
-# zmodule steeef
+# zmodule asciiship
 # zmodule patthemav/minimal2
 zmodule romkatv/powerlevel10k
 

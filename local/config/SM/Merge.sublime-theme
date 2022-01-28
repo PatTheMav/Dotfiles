@@ -1,0 +1,43 @@
+// Documentation at https://www.sublimetext.com/docs/themes.html
+{
+    "rules":
+    [
+        {
+            "class": "tab_control",
+            "settings": ["show_tab_close_buttons_on_left", "show_tab_close_buttons"],
+            "close_button_side": "left",
+            "content_margin": [10,6],
+        },
+        {
+            "class": "tab_close_button",
+            "layer0.opacity": "var(icon_button_opacity-hidden)",
+        },
+        {
+            "class": "tab_close_button",
+            "parents": [{"class": "tab_control", "attributes": ["hover"]}],
+            "layer0.opacity": "var(icon_button_opacity-tab_bar)",
+        },
+        {
+            "class": "tab_close_button",
+            "attributes": ["hover"],
+            "parents": [{"class": "tab_control", "attributes": ["hover"]}],
+            "layer0.opacity": "var(icon_button_opacity-tab_bar-hover)",
+        },
+        {
+            "class": "tab_close_button",
+            "parents": [{"class": "tab_control", "attributes": ["dirty"]}],
+            "layer0.opacity": "var(icon_button_opacity-tab_bar-faded)",
+        },
+        {
+            "class": "tab_close_button",
+            "parents": [{"class": "tab_control", "attributes": ["dirty", "hover"]}],
+            "layer0.opacity": "var(icon_button_opacity-tab_bar)",
+        },
+        {
+            "class": "tab_close_button",
+            "attributes": ["hover"],
+            "parents": [{"class": "tab_control", "attributes": ["dirty", "hover"]}],
+            "layer0.opacity": "var(icon_button_opacity-tab_bar-hover)",
+        },
+    ]
+}

@@ -1,0 +1,50 @@
+// Documentation at https://www.sublimetext.com/docs/themes.html
+{
+    "variables":
+    {
+        "file_tab_close_opacity": { "target": 0.0, "speed": 4.0, "interpolation": "smoothstep" },
+    },
+    "rules":
+    [
+        {
+            "class": "tab_control",
+            "settings": ["show_tab_close_buttons_on_left"],
+            "close_button_side": "left",
+            "settings": {"file_tab_style": ["", "rounded"]},
+            "content_margin": [11, 5, 16, 4],
+        },
+        {
+            "class": "tab_control",
+            "settings": ["show_tab_close_buttons_on_left"],
+            "close_button_side": "left",
+            "settings": {"file_tab_style": ["square"]},
+            "content_margin": [9, 3, 14, 4],
+        },
+        {
+            "class": "tab_control",
+            "settings": ["show_tab_close_buttons_on_left"],
+            "close_button_side": "left",
+            "settings": {"file_tab_style": ["angled"]},
+            "content_margin": [22, 8, 26, 4],
+        },
+        {
+            "class": "tab_close_button",
+            "attributes": ["hover"],
+            "parents": [{"class": "tab_control", "attributes": ["!added","!deleted"]}],
+            "layer0.opacity": "var(file_tab_close_hover_opacity)",
+            "layer0.tint": "white"
+        },
+        {
+            "class": "tab_close_button",
+            "parents": [{"class": "tab_control", "attributes": ["file_light","!added","!deleted"]}],
+            "attributes": ["hover"],
+            "layer0.opacity": "var(file_tab_close_hover_opacity)",
+            "layer0.tint": "black",
+        },
+        {
+            "class": "tab_close_button",
+            "parents": [{"class": "tab_control", "attributes": ["hover"]}],
+            "layer0.opacity": "var(file_tab_close_hover_opacity)"
+        }
+    ]
+}

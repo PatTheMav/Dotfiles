@@ -1,0 +1,151 @@
+#!/bin/bash
+
+set -ueo pipefail
+
+aptfile_main() {
+  local apt_packages
+  local url_packages
+  local usage
+  local version
+  local APTFILE
+
+  version="0.0.2"
+  usage="Usage: aptfile [--file APTFILE]"
+  apt_packages=()
+  url_packages=()
+
+  : "${APTFILE:=}"
+
+  while true; do
+    case "${1:-}" in
+      -f | --file ) APTFILE="${2}"; shift 2 ;;
+      -v | --version ) echo "aptfile ${version}"; exit 0 ;;
+      -h | --help ) echo "${usage}"; exit 0 ;;
+      -- ) shift ;;
+      *) break;
+    esac
+  done
+
+  : "${APTFILE:=${HOME}/.Aptfile}"
+
+  local _arch
+  local _bin
+  local _bin_alt
+  local _found
+  local _line
+  local -i _lineno=1
+  local _location
+  local _package
+  local _pubkey
+  local _repo_name
+  local _source
+  local _tokens
+  local _type
+  local _url
+
+  while read -r _line; do
+    IFS=' ' read -r -a _tokens <<< "${_line}"
+    if [[ -z "${_tokens:-}" ]]; then
+      continue
+    fi
+
+    case "${_tokens[0]}" in
+      source)
+        if [[ "${#_tokens[@]}" -lt 4 || "${_tokens[2]}" != 'pubkey:' ]]; then
+          echo -e "\033[31m==> \033[37;1mInvalid Aptfile specification at line number ${_lineno}\033[0m"
+          return 1
+        fi
+
+        _source="${_tokens[1]//\'/}"
+        _source="${_source//,/}"
+        _pubkey="${_tokens[3]//\'/}"
+        _repo_name="${_source##*/}"
+        _repo_name="${_repo_name%%.*}"
+
+        if [[ ! -f /usr/share/keyrings/"${_repo_name}".asc ]]; then
+          curl -fsSL "${_pubkey}" | sudo tee -a /usr/share/keyrings/"${_repo_name}".asc
+        fi
+
+        if [[ -f /etc/apt/sources.list.d/"${_source##*/}" ]]; then
+          curl -fsSL "${_source}" | sudo tee /etc/apt/sources.list.d/"${_source##*/}"
+        fi
+
+        sudo apt update
+        ;;
+      package)
+        if [[ "${#_tokens[@]}" -eq 3 || "${#_tokens[@]}" -eq 5 ]]; then
+          echo -e "\033[31m==> \033[37;1mInvalid Aptfile specification at line number ${_lineno}\033[0m"
+          return 1
+        fi
+
+        _package="${_tokens[1]//\'/}"
+        _package="${_package//,/}"
+        _url=''
+        _arch="$(uname -m)"
+        _bin=''
+        _bin_alt=''
+
+        for (( i=2; i<${#_tokens[@]}; i++ )); do
+          if [[ "${_tokens[${i}]//:/}" == 'url' ]]; then
+            _url="${_tokens[$((i+1))]//\'/}"
+            _url="${_url//,/}"
+          elif [[ "${_tokens[${i}]//:/}" == 'arch' ]]; then
+            _arch="${_tokens[$((i+1))]}"
+            _arch="${_arch//,/}"
+          elif [[ "${_tokens[${i}]//:/}" == 'bin' ]]; then
+            _bin="${_tokens[$((i+1))]//\'/}"
+            _bin="${_bin//,/}"
+          elif [[ "${_tokens[${i}]//:/}" == 'bin_alt' ]]; then
+            _bin_alt="${_tokens[$((i+1))]//\'/}"
+            _bin_alt="${_bin_alt//,/}"
+          fi
+          i=$((i+1))
+        done
+
+        if ! [[ "${_arch}" =~ (arm64|aarch64) ]]; then
+          continue
+        fi
+
+        if [[ -z "${_bin}" ]]; then
+          _bin="${_package}"
+        fi
+
+        _location=$(type -f -p "${_bin}" 2>/dev/null || echo 'not found')
+
+        if [[ "${_bin_alt}" ]]; then
+          _location=$(type -f -p "${_bin_alt}" 2>/dev/null || echo 'not found')
+        fi
+
+        if ! [[ "${_location}" == 'not found' ]]; then
+          echo -e "\033[32m==> \033[37;1m${_package} found at ${_location}\033[0m"
+        else
+          if [[ -z "${_url}" ]]; then
+            apt_packages+=("${_package}")
+          else
+            url_packages+=("${_url}")
+          fi
+        fi
+        ;;
+      esac
+    done < "${APTFILE}"
+
+    if [[ "${#apt_packages[@]}" -gt 0 ]]; then
+      sudo apt install "${apt_packages[@]}"
+    fi
+
+    if [[ "${#url_packages[@]}" -gt 0 ]]; then
+        pushd "${PWD}" > /dev/null
+
+        local _tmp
+        for _package in "${url_packages[@]}"; do
+            _temp="$(mktemp -d)"
+            builtin cd "${_temp}"
+            curl -fsSL "${_package}"
+            sudo dpkg -i "${_package##*/}"
+            rm -rf ${_temp}
+        done
+        popd > /dev/null
+    fi
+}
+
+aptfile_main "${@}"

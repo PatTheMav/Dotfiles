@@ -1,0 +1,20 @@
+source 'https://apt.cli.rs/rust-tools.list', pubkey: 'https://apt.cli.rs/pubkey.asc'
+
+package 'curl'
+package 'zsh'
+package 'git'
+package 'git-delta', arch: amd64
+package 'less'
+package 'make'
+package 'man'
+package 'mc'
+package 'ripgrep', bin: 'rg'
+package 'bat', bin_alt: 'batcat'
+package 'btm', url: 'https://github.com/ClementTsang/bottom/releases/download/0.6.8/bottom_x86_64-unknown-linux-gnu.deb', arch: amd64
+package 'btm', url: 'https://github.com/ClementTsang/bottom/releases/download/0.6.8/bottom_aarch64-unknown-linux-gnu.deb', arch: arm64
+package 'duf', url: 'https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_amd64.deb', arch: amd64
+package 'duf', url: 'https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_arm64.deb', arch: arm64
+package 'curlie', url: 'https://github.com/rs/curlie/releases/download/v1.6.9/curlie_1.6.9_linux_amd64.deb', arch: amd64
+package 'curlie', url: 'https://github.com/rs/curlie/releases/download/v1.6.9/curlie_1.6.9_linux_arm64.deb', arch: arm64
+package 'xh', arch: amd64
+package 'hexyl'

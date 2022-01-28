@@ -1,0 +1,5 @@
+cask 'xact'
+cask 'knockknock'
+cask 'taskexplorer'
+cask 'keepingyouawake'
+cask 'cyberduck'

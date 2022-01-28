@@ -40,9 +40,13 @@ if exists('g:airline#init#vim_async')
         let g:airline_symbols.linenr = ' ㏑'
         let g:airline_symbols.maxlinenr = '☰ '
     end
-
+    
     " Set airline theme
-    let g:airline_theme='base16_oceanicnext'
+    if exists('$BASE16_THEME') && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
+        let g:airline_theme='base16_' . $BASE16_THEME
+    else
+        let g:airline_theme='base16_mariana'
+    endif
 
     set noshowmode
 else

@@ -1,0 +1,13 @@
+{
+	"font_face": "SF Mono PTM",
+	"signature_error_highlighting": "no_signature",
+	"theme": "auto",
+	"trim_trailing_white_space_on_save": "all",
+	"expand_merge_commits_by_default": true,
+	"update_check": true,
+	"image_diff_style": "onion-skin",
+	"translate_tabs_to_spaces": true,
+	"show_tab_close_buttons_on_left": true,
+	"highlight_modified_tabs": true,
+	"auto_hide_status_bar": false,
+}

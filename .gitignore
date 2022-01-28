@@ -1,31 +1,34 @@
-#Ignore Finder metadata files
-.DS_Store
-._*
 *.zwc
 Icon*
 .defaults
 .nobrew
 .contact
+.github_contact
+Brewfile*.lock.json
 
-#No build directories thanks
+# Ignore Finder metadata files
+.DS_Store
+._*
+
+# No build directories
 build
 # vim bundles are handled by Vundle
-vim/autoload/*
-vim/plugged/*
 vim/view
 vim/.netrw*
 # Ignore contents of config folder
 config/*
-# Ignore package control files from Sublime Text 3
-local/configs/ST/MarkdownPreview.sublime-settings
-local/configs/ST/Package Control.cache
-local/configs/ST/Package Control.cache/*
-local/configs/ST/Package Control.last-run
-local/configs/ST/Package Control.merged-ca-bundle
-local/configs/ST/Package Control.system-ca-bundle
-local/configs/ST/Package Control.user-ca-bundle
-local/configs/ST/*.crt
-local/configs/ST/formatter.assets/*
-# Ignore copyrighted fonts
+# Ignore settings files from Sublime Text
+local/config/ST/MarkdownPreview.sublime-settings
+local/config/ST/Preferences.sublime-settings
+local/config/ST/Package Control.cache
+local/config/ST/Package Control.cache/*
+local/config/ST/Package Control.last-run
+local/config/ST/Package Control.merged-ca-bundle
+local/config/ST/Package Control.system-ca-bundle
+local/config/ST/Package Control.user-ca-bundle
+local/config/ST/*.crt
+local/config/ST/formatter.assets/*
+# Ignore settings files from Sublime Merge
+local/config/SM/Preferences.sublime-settings
 # Ignore unencrypted files
 zim/tokens.zsh

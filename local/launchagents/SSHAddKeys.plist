@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>ssh-add-keys</string>
+	<string>com.patthemav.ssh-add-keys</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>ssh-add</string>
+		<string>/usr/bin/ssh-add</string>
 		<string>--apple-load-keychain</string>
 	</array>
 	<key>RunAtLoad</key>

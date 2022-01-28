@@ -1,0 +1,115 @@
+#!/bin/bash
+
+set -e
+
+AUTOMATIC_PATCH=false
+
+if [[ "${__CFBundleIdentifier}" == "com.sublimemerge" ]]; then
+    AUTOMATIC_PATCH=true
+fi
+
+HAS_CMAKE_FORMAT=false
+HAS_CLANG_FORMAT=false
+HAS_SWIFT_FORMAT=false
+CLANG_FORMAT="clang-format"
+
+if type clang-format &> /dev/null; then
+    HAS_CLANG_FORMAT=true
+    CLANG_FORMAT="clang-format"
+elif type clang-format-13 &> /dev/null; then
+    HAS_CLANG_FORMAT=true
+    CLANG_FORMAT="clang-format-13"
+fi
+
+if type swift-format &> /dev/null; then
+    HAS_SWIFT_FORMAT=true
+fi
+
+if type cmake-format &> /dev/null; then
+    HAS_CMAKE_FORMAT=true
+fi
+
+if git rev-parse --verify HEAD &> /dev/null; then
+    RELATION='HEAD'
+else
+    RELATION='4b825dc642cb6eb9a060e54bf8d69288fbee4904'
+fi
+
+REPO_NAME="$(basename $(git rev-parse --show-toplevel))"
+PATCH_FILE="$(mktemp -t "pre-commit-${REPO_NAME}")"
+chmod g+rw,a+rw "${PATCH_FILE}"
+find ${TMPDIR} -maxdepth 1 -name "pre-commit-${REPO_NAME}*" -type f -mtime 7 -delete
+
+git diff-index --cached --diff-filter=ACMR --name-only ${RELATION} -- | while read FILE; do
+    if [[ -L "${FILE}" ]]; then
+        continue
+    fi
+
+    if ${HAS_CLANG_FORMAT} && [[ "${FILE}" =~ .*\.(c|h|cpp|hpp|m|mm)$ ]]; then
+        ${CLANG_FORMAT} --style=file "${FILE}" | diff -u "${FILE}" - | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+    elif ${HAS_CMAKE_FORMAT} && [[ "${FILE}" =~ (CMakeLists.txt|.*\.cmake)$ ]]; then
+        cmake-format "${FILE}" | diff -u "${FILE}" - | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+    elif ${HAS_SWIFT_FORMAT} && [[ "${FILE}" =~ .*\.(swift)$ ]]; then
+        swift-format "${FILE}" | diff -u "${FILE}" - | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+    fi
+done
+
+if ${AUTOMATIC_PATCH}; then
+    if [[ ! -s "${PATCH_FILE}" ]]; then
+        rm -rf "${PATCH_FILE}"
+        exit 0
+    fi
+
+    set -x
+    git apply "${PATCH_FILE}"
+    CHANGES=$(grep '+++\|---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^	]*\).*/\1/g' | sort | uniq)
+
+    echo "${CHANGES}" | xargs git add
+    exit 0
+fi
+
+if [[ ! -s "${PATCH_FILE}" ]]; then
+    printf "No additional formatting necessary for files in this commit.\n"
+    rm -rf "${PATCH_FILE}"
+    exit 0
+fi
+
+LINES=(
+    "Automatic formatting of files in this commit yielded additional changes:"
+    ""
+    "$(<"${PATCH_FILE}")"
+    ""
+    ""
+    "Apply the changes via 'git apply ${PATCH_FILE}'"
+    "Ignore the changes via 'git commit --no-verify (not recommended)"
+)
+
+printf "%s\n" "${LINES[@]}"
+
+exec < /dev/tty || exit 1
+
+echo -n $'\nApply patch now? (y/n) '
+read -n 1 RESPONSE
+echo ""
+
+if [[ "${RESPONSE}" == "y" || "${RESPONSE}" == "Y" ]]; then
+    echo "Applying patch..."
+
+    git apply "${PATCH_FILE}"
+
+    CHANGES=$(grep '+++\|---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^	]*\).*/\1/g' | sort | uniq)
+
+    echo $'\nChanged files:'
+    echo "${CHANGES}"
+    echo -n $'\nAdd changed files to index? (y/n) '
+    read -n 1 RESPONSE
+    echo ""
+    if [[ "${RESPONSE}" == "y" || "${RESPONSE}" == "Y" ]]; then
+        echo "Adding to index..."
+        set +x
+        echo "${CHANGES}" | xargs git add
+    fi
+fi
+
+exit 0
+exit 0

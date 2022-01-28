@@ -13,29 +13,6 @@ set nocompatible
 " Plugin settings
 """"""""""""""""""""""""""
 
-if exists('g:loaded_plug')
-    " Specify a directory for plugins
-    " - For Neovim: ~/.local/share/nvim/plugged
-    " - Avoid using standard Vim directory names like 'plugin'
-    call plug#begin('~/.vim/plugged')
-
-    " Plug 'itchyny/lightline.vim'
-    Plug 'chriskempson/base16-vim'
-    " Plug 'danielwe/base16-vim'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'ervandew/supertab'
-    Plug 'tpope/vim-fugitive'
-    Plug 'godlygeek/tabular'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'plasticboy/vim-markdown'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'mhinz/vim-startify'
-    Plug 'elzr/vim-json'
-
-    call plug#end()
-endif
-
 if exists('Explore')
     " Hide object files in :Explore
     let g:explHideFiles='^\.,.*\.sw[po]$,.*\.pyc$'
@@ -176,6 +153,8 @@ set autoindent
 set smartindent
 " Copy the structure of existing indents when autoindenting new lines
 set copyindent
+" Enable use of italics
+highlight Comment cterm=italic
 
 """"""""""""""""""""""""""
 " Appearance
@@ -248,17 +227,20 @@ if has("gui_running")
     " set t_Co=256
     set guitablabel=%M\ %t
 else
-    " As long as Terminal.app doesn't properly support
-    " setting colors in the color space, 'termguicolors'
-    " won't work with Terminal.app. If another terminal is
-    " mainly used, uncomment.
-
-    " if (has("termguicolors"))
-    "     set termguicolors
-    "     let base16colorspace=256
-    " endif
-
-    colorscheme base16-oceanicnext
+    if exists('$BASE16_THEME') && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
+        let base16colorspace=256
+        colorscheme base16-$BASE16_THEME
+    else
+        colorscheme base16-mariana
+        " As long as Terminal.app doesn't properly support
+        " setting colors in the color space, 'termguicolors'
+        " won't work with Terminal.app. If another terminal is
+        " mainly used, uncomment.
+        if (has("termguicolors") && has("linux"))
+            set termguicolors
+            let base16colorspace=256
+        endif
+    endif
 endif
 
 
@@ -362,3 +344,7 @@ augroup cursorrestore
         autocmd BufWinEnter *.* silent loadview
     endif
 augroup end
+
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)

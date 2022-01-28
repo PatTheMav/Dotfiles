@@ -1,6 +1,0 @@
-[
-    { "keys": ["super+shift+o"], "command": "fuzzy_start_from_file" },
-    { "keys": ["super+alt+o"], "command": "fuzzy_bookmarks_load" },
-    { "keys": ["super+^"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
-
-]

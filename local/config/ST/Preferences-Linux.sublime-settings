@@ -1,5 +1,5 @@
 {
-	"always_show_minimap_viewport": true,
+	"always_show_minimap_viewport": false,
 	"binary_file_patterns":
 	[
 		"*.jpg",
@@ -58,22 +58,11 @@
 	],
 	"font_size": 12.6,
 	"highlight_line": true,
+	"caret_style": "phase",
 	"ignored_packages":
 	[
-		"BinaryPlist",
 		"BracketHighlighter",
-		"JsPrettier",
-		"LSP",
-		"LSP-css",
-		"LSP-html",
-		"LSP-intelephense",
-		"LSP-json",
-		"LSP-pyright",
-		"LSP-typescript",
-		"LSP-vue",
-		"LSP-yaml",
-		"plist",
-		"python-black",
+		"Six",
 		"Vintage",
 		"Vintageous",
 		"x86 and x86_64 Assembly",
@@ -84,8 +73,8 @@
 	],
 	"line_padding_bottom": 3,
 	"line_padding_top": 3,
-	"neovintageous_build_version": 11100,
-	"open_files_in_new_window": false,
+	"neovintageous_build_version": 12700,
+	"open_files_in_new_window": "never",
 	"overlay_scroll_bars": "enabled",
 	"rulers":
 	[
@@ -105,5 +94,11 @@
 	"light_theme": "Default.sublime-theme",
 	"dark_color_scheme": "Packages/Color Scheme - Default/Mariana.sublime-color-scheme",
 	"light_color_scheme": "Packages/Color Scheme - Default/Breakers.sublime-color-scheme",
-	"color_scheme": "Packages/Color Scheme - Default/Mariana.sublime-color-scheme",
+	"color_scheme": "Mariana.sublime-color-scheme",
+	"dictionary": "Packages/Language - English/en_GB.dic",
+	"show_tab_close_buttons_on_left": false,
+	"highlight_modified_tabs": true,
+	"show_tab_close_buttons": true,
+	"auto_hide_status_bar": false,
+	"file_tab_style": "square"
 }

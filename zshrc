@@ -24,14 +24,13 @@ zstyle ':zim:termtitle' format '%n@%m: %~'
 zstyle ':zim:tabtitle' format '%15<..<%~%<< - %n@%15>..>%m%>>'
 zstyle ':zim:input' double-dot-expand yes
 zstyle ':zim:ssh' ids 'id_ed25519' 'id_rsa'
-#ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
 
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-#typeset -A ZSH_HIGHLIGHT_STYLES
-#ZSH_HIGHLIGHT_STYLES[comment]='fg=10'
 
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
 if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
-  # Update static initialization script if it does not exist or it's outdated, before sourcing it
+  # Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
   source ${ZIM_HOME}/zimfw.zsh init -q
 fi
 source ${ZIM_HOME}/init.zsh
@@ -49,4 +48,4 @@ bindkey '^N' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh

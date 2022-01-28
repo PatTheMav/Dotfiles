@@ -31,5 +31,5 @@ export HISTFILESIZE=1000
 export HISTCONTROL=ignoredups
 
 for bash_extra in ${HOME}/.bash_extras/0*.bash; do
-  source $bash_extra
+  source "${bash_extra}"
 done

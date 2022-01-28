@@ -3,7 +3,8 @@
 	url = https://github.com/vim-airline/vim-airline.git
 [submodule "vim/pack/ptm/start/base16-vim"]
 	path = vim/pack/ptm/start/base16-vim
-	url = https://github.com/chriskempson/base16-vim.git
+	url = https://github.com/tinted-theming/base16-vim
+	branch = main
 [submodule "vim/pack/ptm/start/vim-airline-themes"]
 	path = vim/pack/ptm/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git
@@ -34,3 +35,6 @@
 [submodule "vim/pack/ptm/opt/vim-cmake"]
 	path = vim/pack/ptm/opt/vim-cmake
 	url = https://github.com/cdelledonne/vim-cmake.git
+[submodule "vim/pack/ptm/start/vim-highlightedyank"]
+	path = vim/pack/ptm/start/vim-highlightedyank
+	url = https://github.com/machakann/vim-highlightedyank

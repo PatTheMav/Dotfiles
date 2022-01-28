@@ -1,17 +1,17 @@
-#!/usr/bin/env sh
+#!/usr/bin/env zsh
 
-if type brew > /dev/null; then
-    echo "\033[34m==> \033[37;1mChecking custom homebrew formulas...\033[0m"
-    for formula in $(brew list --formula | grep custom); do
-        CUSTOM_FORMULA="${formula}"
-        ORIGINAL_FORMULA="$(echo ${formula} | sed 's/-custom//g')"
+if (( ${+commands[brew]} )) {
+  print -Pr "%F{blue}==>%f %BChecking custom homebrew formulas...%b"
 
-        ORIG_VERSION="$(brew info ${ORIGINAL_FORMULA} | sed -En 's/.+: stable ([0-9\.]+)( \(bottled\))?, HEAD/\1/p')"
-        CUSTOM_VERSION="$(brew info ${CUSTOM_FORMULA} | sed -En 's/.+: stable ([0-9\.]+)( \(bottled\))?, HEAD/\1/p')"
+  for custom ("${HOMEBREW_PREFIX}"/Cellar/*-custom) {
+    versions=$(brew info ${custom:t} ${${custom:t}//-custom/} | sed -En 's/.+: stable ([0-9\.]+)( \(bottled\))?(, HEAD)?/\1/p')
 
-        if [ "${ORIG_VERSION}" != "${CUSTOM_VERSION}" ]; then
-            echo "\033[31m==> \033[37;1mCustom formula outdated: \033[0m\033[34m${CUSTOM_FORMULA}@\033[33m${CUSTOM_VERSION}\033[37;1m vs \033[0m\033[34m${ORIGINAL_FORMULA}@\033[33;1m${ORIG_VERSION}\033[37;1m...\033[0m"
-            #echo "\033[32m==> \033[37;1mCustom formula up to date: \033[0m\033[34m${CUSTOM_FORMULA}@\033[33m${CUSTOM_VERSION}\033[37;1m vs \033[0m\033[34m${ORIGINAL_FORMULA}@\033[33;1m${ORIG_VERSION}\033[37;1m...\033[0m"
-        fi
-    done
-fi
+    read -r custom_version orig_version < <(print "${versions}" | tr '\n' ' '); true
+
+    autoload -Uz is-at-least
+
+    if ! is-at-least ${orig_version} ${custom_version}; then
+      print -Pr "%F{red}==>%f %BCustom formula outdated:%b %F{blue}${custom:t}@%f%F{yellow}${custom_version}%f %Bvs%b %F{blue}${${custom:t}//-custom/}@%f%F{yellow}%B${orig_version}%b%f%B...%b"
+    fi
+  }
+}

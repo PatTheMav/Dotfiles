@@ -1,0 +1,5 @@
+brew 'websocat'
+cask 'tableplus'
+cask 'pgadmin4'
+cask 'insomnia'
+cask 'imageoptim'

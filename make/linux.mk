@@ -68,7 +68,7 @@ endif
 ## Install Homebrew
 $(PKG_CMD) : $(CURL_CMD)
 	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling Homebrew...\033[0m"
-	@HOMEBREW_INSTALL_FROM_API=1 /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.zshrc
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.bashrc
 	@echo 'fpath=("$${HOMEBREW_PREFIX}/share/zsh/site-functions" $${fpath})' >> $(HOME)/.zshrc

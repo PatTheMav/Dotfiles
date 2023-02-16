@@ -1,6 +1,12 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
+
+CHANGED_FILES=$(git diff --name-only --cached --diff-filter=ACMR)
+if [[ -z "${CHANGED_FILES}" || ! "${CHANGED_FILES}" =~ CMakeLists.txt|.*\.(c|h|cpp|hpp|m|mm|swift|cmake)$ ]]; then
+    exit
+fi
 
 AUTOMATIC_PATCH=false
 
@@ -13,12 +19,12 @@ HAS_CLANG_FORMAT=false
 HAS_SWIFT_FORMAT=false
 CLANG_FORMAT="clang-format"
 
-if type clang-format &> /dev/null; then
+if type clang-format-16 &> /dev/null; then
+    HAS_CLANG_FORMAT=true
+    CLANG_FORMAT="clang-format-16"
+elif type clang-format &> /dev/null; then
     HAS_CLANG_FORMAT=true
     CLANG_FORMAT="clang-format"
-elif type clang-format-13 &> /dev/null; then
-    HAS_CLANG_FORMAT=true
-    CLANG_FORMAT="clang-format-13"
 fi
 
 if type swift-format &> /dev/null; then
@@ -32,7 +38,7 @@ fi
 if git rev-parse --verify HEAD &> /dev/null; then
     RELATION='HEAD'
 else
-    RELATION='4b825dc642cb6eb9a060e54bf8d69288fbee4904'
+    RELATION="$(git rev-list --max-parents=0 HEAD)"
 fi
 
 REPO_NAME="$(basename $(git rev-parse --show-toplevel))"
@@ -46,11 +52,11 @@ git diff-index --cached --diff-filter=ACMR --name-only ${RELATION} -- | while re
     fi
 
     if ${HAS_CLANG_FORMAT} && [[ "${FILE}" =~ .*\.(c|h|cpp|hpp|m|mm)$ ]]; then
-        ${CLANG_FORMAT} --style=file "${FILE}" | diff -u "${FILE}" - | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+        ${CLANG_FORMAT} --style=file "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
     elif ${HAS_CMAKE_FORMAT} && [[ "${FILE}" =~ (CMakeLists.txt|.*\.cmake)$ ]]; then
-        cmake-format "${FILE}" | diff -u "${FILE}" - | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+        cmake-format "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
     elif ${HAS_SWIFT_FORMAT} && [[ "${FILE}" =~ .*\.(swift)$ ]]; then
-        swift-format "${FILE}" | diff -u "${FILE}" - | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+        swift-format "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
     fi
 done
 
@@ -60,9 +66,8 @@ if ${AUTOMATIC_PATCH}; then
         exit 0
     fi
 
-    set -x
     git apply "${PATCH_FILE}"
-    CHANGES=$(grep '+++\|---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^	]*\).*/\1/g' | sort | uniq)
+    CHANGES=$(grep '^+++\|^---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^ 	]*\).*/\1/g' | sort | uniq)
 
     echo "${CHANGES}" | xargs git add
     exit 0
@@ -97,7 +102,7 @@ if [[ "${RESPONSE}" == "y" || "${RESPONSE}" == "Y" ]]; then
 
     git apply "${PATCH_FILE}"
 
-    CHANGES=$(grep '+++\|---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^	]*\).*/\1/g' | sort | uniq)
+    CHANGES=$(grep '^+++\|^---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^   ]*\).*/\1/g' | sort | uniq)
 
     echo $'\nChanged files:'
     echo "${CHANGES}"

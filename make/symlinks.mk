@@ -21,10 +21,6 @@ symlinks = \
 	zlogout \
 	zshrc \
 	zshenv \
-	bash_profile \
-	bash_logout \
-	bashrc \
-	bash_extras \
 	vim \
 	config \
 	tmux \

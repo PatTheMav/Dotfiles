@@ -13,6 +13,7 @@ INCLUDED_OS_CONFIG := TRUE
 
 ## VARIABLES
 OUTPUT := echo -e
+SED := sed -i''
 BASH_BIN := $(shell which bash)
 SHELL := $(BASH_BIN)
 .SHELLFLAGS := -ec
@@ -68,7 +69,7 @@ endif
 ## Install Homebrew
 $(PKG_CMD) : $(CURL_CMD)
 	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling Homebrew...\033[0m"
-	@HOMEBREW_INSTALL_FROM_API=1 /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.zshrc
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.bashrc
 	@echo 'fpath=("$${HOMEBREW_PREFIX}/share/zsh/site-functions" $${fpath})' >> $(HOME)/.zshrc
@@ -77,4 +78,4 @@ $(PKG_CMD) : $(CURL_CMD)
 ## Link batcat to bat in user binary directory
 /usr/local/bin/bat : | /usr/bin/batcat
 	@$(OUTPUT) "\033[32m==> \033[37;1mLinking $(notdir $@)...\033[0m"
-	@ln -fsv $$(readlink /usr/bin/batcat) /usr/local/bin/bat
+	@sudo ln -fsv /usr/bin/batcat /usr/local/bin/bat

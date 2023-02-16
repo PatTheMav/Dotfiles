@@ -13,6 +13,7 @@ INCLUDED_OS_CONFIG := TRUE
 
 ## VARIABLES
 OUTPUT := echo
+SED := sed -i ''
 CPU_BRAND := $(shell sysctl -n machdep.cpu.brand_string | cut -d " " -f 1)
 ZSH_BIN := $(shell which zsh)
 SHELL := $(ZSH_BIN)
@@ -34,7 +35,7 @@ SFMONO := \
 	SF-Mono-Semibold.otf \
 	SF-Mono-SemiboldItalic.otf
 SFMONO_SOURCE := /System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts
-SFMONO_PTM_SOURCE := U2FsdGVkX19bIiXE60GNWW4WxD7hVmwG3L+Jog5k1cYmyfz3UryAPdVhbUJjswQNqJWfWa61WFYLK4s3/BQphI9PRCYzuYJVQju1XF9skLENdkuirejzB3nxQHqQMSOv
+SFMONO_PTM_SOURCE := U2FsdGVkX1+XVzGZfVFbmCGuNDkfGgL9yzP/ofgXl7JP3bJzjhBt0SgCmUhE2oZgkTIf52MCcM38RAl9adXloP5NUdJORUu2SPevXahhG5Y=
 
 DECRYPT_HOOKS += decrypt-macos
 
@@ -68,10 +69,11 @@ os-defaults : $(LAUNCH_AGENTS) $(addprefix $(LIBRARY)/Fonts/, $(SFMONO))
 		 if (( result < 1 )) { \
 		 	 changed=1; \
 	     $(OUTPUT) "\033[32m==> \033[37;1mEnabling macOS default '$${DEFAULT}'...\033[0m"; \
-	     defaults write com.apple.dock "$${DEFAULT}" -bool true; \
+	     defaults write com.apple.dock "$${DEFAULT}" -bool YES; \
 	   }; \
 	 done; \
 	 if (( changed > 0 )) killall Dock
+	 @defaults write com.apple.dt.Xcode IDEIndexShowLog -bool YES
 
 ## Create launch agents directory in user library
 $(LIBRARY)/LaunchAgents :
@@ -99,7 +101,7 @@ $(BREW_ROOT)/bin/ls $(BREW_ROOT)/bin/dircolors $(BREW_ROOT)/bin/chmod $(BREW_ROO
 ## Install Homebrew
 $(PKG_CMD) : | $(CURL_CMD)
 	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling Homebrew...\033[0m"
-	@HOMEBREW_INSTALL_FROM_API=1 /bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.zprofile
 	@echo 'fpath=("$${HOMEBREW_PREFIX}/share/zsh/site-functions" $${fpath})' >> $(HOME)/.zprofile
 
@@ -123,8 +125,8 @@ custom-zsh : | $(BREW_ROOT)/Cellar/zsh
 ## Decrypt macOS files
 decrypt-macos : | $(LIBRARY)/Fonts
 	@$(OUTPUT) "\033[32m==> \033[37;1mDecrypting SF Mono PTM...\033[0m"
-	@sh -c 'curl_path="$$(echo "$(SFMONO_PTM_SOURCE)" | openssl base64 -A -d | openssl enc -d -aes-256-cbc -md sha512)"; \
-	cd $(PWD)/local/fonts/ && curl $$curl_path -s -o SF-Mono-PTM.tgz && tar -xf SF-Mono-PTM.tgz && rm SF-Mono-PTM.tgz'
+	@sh -c 'curl_path="$$(echo "$(SFMONO_PTM_SOURCE)" | openssl base64 -A -d | openssl enc -d -aes-256-cbc -md sha512 -pbkdf2)"; \
+	cd $(PWD)/local/fonts/ && curl $$curl_path -s -o SF-Mono-PTM.tar.xz && tar -xJf SF-Mono-PTM.tar.xz && rm SF-Mono-PTM.tar.xz'
 	@rm -f $(HOME)/Library/Fonts/SF-Mono-PTM-*.otf(N)
 	@mv $(PWD)/local/fonts/SF-Mono-PTM-*.otf $(LIBRARY)/Fonts
 

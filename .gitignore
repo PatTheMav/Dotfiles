@@ -28,6 +28,8 @@ local/config/ST/Package Control.system-ca-bundle
 local/config/ST/Package Control.user-ca-bundle
 local/config/ST/*.crt
 local/config/ST/formatter.assets/*
+local/config/ST/Terminus.hidden-color-scheme
+local/config/ST/Terminus/Terminus.hidden-color-scheme
 # Ignore settings files from Sublime Merge
 local/config/SM/Preferences.sublime-settings
 # Ignore unencrypted files

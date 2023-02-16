@@ -43,7 +43,8 @@ if exists('g:airline#init#vim_async')
     
     " Set airline theme
     if exists('$BASE16_THEME') && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
-        let g:airline_theme='base16_' . $BASE16_THEME
+        let s:scheme_slug = substitute($BASE16_THEME, "-", "_", "g")
+        let g:airline_theme='base16_' . s:scheme_slug
     else
         let g:airline_theme='base16_mariana'
     endif

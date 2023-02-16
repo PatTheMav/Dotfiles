@@ -41,7 +41,9 @@
   )
 
   typeset -g POWERLEVEL9K_MODE=nerdfont-complete
-  typeset -g POWERLEVEL9K_ICON_PADDING=none
+  typeset -g POWERLEVEL9K_ICON_PADDING=moderate
+  typeset -g POWERLEVEL9K_ICON_PACKAGE_ICON='\uF487'
+  typeset -g POWERLEVEL9K_ICON_GCLOUD_ICON='\uF1A0'
 
   typeset -g POWERLEVEL9K_BACKGROUND=                            # transparent background
   typeset -g POWERLEVEL9K_{LEFT,RIGHT}_{LEFT,RIGHT}_WHITESPACE=  # no surrounding whitespace

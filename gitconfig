@@ -14,7 +14,7 @@
 [user]
     name = PatTheMav
     email = PatTheMav@users.noreply.github.com
-    signingkey = CEFD5D83C12A66B3
+
 [github]
     user = PatTheMav
 
@@ -69,4 +69,10 @@
     smudge = git media smudge %f
 
 [init]
-	templatedir = /Users/patthemav/GitHub/Dotfiles/local/git-templates
+    templatedir = /Users/patthemav/GitHub/Dotfiles/local/git-templates
+
+[gpg]
+	format = ssh
+
+[gpg "ssh"]
+	allowedSignersFile = /Users/patthemav/.config/git/allowed_signers

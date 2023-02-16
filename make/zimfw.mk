@@ -17,7 +17,7 @@ M2_LOCATION := $(HOME)/.m2.zsh
 ZIMFW_INIT = source $${ZDOTDIR:-$${HOME}}/.zim/init.zsh &&
 
 ifneq ($(wildcard $(ZIM_LOCATION)),)
-UPDATE_HOOKS += update-zimfw
+UPDATE_HOOKS += upgrade-zimfw update-zimfw
 CLEAN_HOOKS += clean-zimfw
 DECRYPT_HOOKS += decrypt-zimfw
 endif
@@ -29,6 +29,7 @@ zimfw : | $(ZIM_LOCATION) $(P10K_LOCATION) $(M2_LOCATION)
 
 %/zimfw.zsh : SHELL = $(ZSH_BIN)
 update-zimfw : SHELL = $(ZSH_BIN)
+upgrade-zimfw : SHELL = $(ZSH_BIN)
 clean-zimfw : SHELL = $(ZSH_BIN)
 
 %/zimfw.zsh :
@@ -45,9 +46,14 @@ clean-zimfw : SHELL = $(ZSH_BIN)
 
 update-zimfw : | $(ZIM_LOCATION)
 	@$(OUTPUT) "\033[32m==> \033[37;1mUpdating zim framework...\033[0m"
-	@$(ZIMFW_INIT) zimfw upgrade
 	@$(ZIMFW_INIT) zimfw install
 	@$(ZIMFW_INIT) zimfw update
+
+upgrade-zimfw : | $(ZIM_LOCATION)
+	@$(OUTPUT) "\033[32m==> \033[37;1mUpgrading zim framework...\033[0m"
+	@$(ZIMFW_INIT) zimfw upgrade
+	@$(OUTPUT) "\033[32m==> \033[37;1mPatching zim framework...\033[0m"
+	@$(SED) -E -e 's/E\[32m\)/E\[32m\✓/' $(ZIM_LOCATION)
 
 clean-zimfw : | $(ZIM_LOCATION)
 	@$(OUTPUT) "\033[32m==> \033[37;1mCleaning up zim framework...\033[0m"

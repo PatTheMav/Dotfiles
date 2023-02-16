@@ -5,6 +5,7 @@ import os
 import re
 import json
 import math
+import time
 import subprocess
 
 import requests
@@ -175,6 +176,7 @@ blacklist = [
     "b9-2.mov",
     "comp_LA_A005_C009_v05_t9_6M.mov",
     "comp_LA_A009_C009_t9_6M_tag0.mov",
+    "comp_DB_D011_D009_SIGNCMP_v15_6Mbps.mov",
 ]
 
 dupes = {
@@ -243,6 +245,15 @@ merge = {
 
 processed = []
 
+def _file_size(num, suffix="B"):
+    magnitude = int(math.floor(math.log(num, 1024)))
+    val = num / math.pow(1024, magnitude)
+
+    if magnitude > 7:
+        return f"{val:.1f}Yi{suffix}"
+    else:
+        prefix = ["", "K", "M", "G", "T", "P", "E", "Z"][magnitude]
+        return f"{val:8.2f} {prefix}{suffix}"
 
 def _find_duplicate(video_id, video_url):
     if video_url is not None:
@@ -301,6 +312,8 @@ def _parse_aerial_json(json_data, file_name):
                     url1080pHDR = None
                     url4KHEVC = None
                     url4KHDR = None
+                    url4k120FPS = None
+                    url4k240FPS = None
 
                     merge_candidate = merge.get(video_id, None)
                     if merge_candidate is not None:
@@ -318,6 +331,8 @@ def _parse_aerial_json(json_data, file_name):
                             "hdr": url1080pHDR,
                             "4k-hevc": url4KHEVC,
                             "4k-hdr": url4KHDR,
+                            "4k-120": url4k120FPS,
+                            "4k-240": url4k240FPS
                         },
                         "sources": [file_name],
                         "time": time_of_day,
@@ -335,6 +350,8 @@ def _parse_aerial_json(json_data, file_name):
             url1080pHDR = asset.get("url-1080-HDR", None)
             url4KHEVC = asset.get("url-4K-SDR", None)
             url4KHDR = asset.get("url-4K-HDR", None)
+            url4k120FPS = asset.get("url-4K-SDR-120FPS", None)
+            url4k240FPS = asset.get("url-4K-SDR-240FPS", None)
 
             (isDupe, foundDupe) = _find_duplicate(video_id, url1080pH264)
 
@@ -350,6 +367,8 @@ def _parse_aerial_json(json_data, file_name):
                         "hdr": url1080pHDR,
                         "4k-hevc": url4KHEVC,
                         "4k-hdr": url4KHDR,
+                        "4k-120": url4k120FPS,
+                        "4k-240": url4k240FPS
                     },
                     "sources": [file_name],
                     "time": "day",
@@ -364,7 +383,8 @@ def _parse_aerial_files():
     video_list = {
         "tvOS 16": "https://sylvan.apple.com/Aerials/resources-16.tar",
         "tvOS 13": "https://sylvan.apple.com/Aerials/resources-13.tar",
-        "tvOS 10": "http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json"
+        "tvOS 10": "http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json",
+        "macOS 14": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-14-0-3.tar"
     }
 
     for version, source_url in video_list.items():
@@ -408,7 +428,17 @@ def _parse_aerial_files():
 def _start_download(file_list, formats):
     def _build_filename(url, scene_name, num):
         try:
-            (path, color_depth, resolution, codec) = url[:-4].rsplit("_", 3)
+            if url.endswith("sRGB_tsa.mov"):
+                (path, color_depth, _, _, framerate, _, color_format, _) = url[:-4].rsplit("_", 7)
+                codec = "HEVC"
+                resolution = f"4K{framerate}-{color_format}"
+            elif url.endswith("_tsa.mov"):
+                (path, color_depth, _, _, _, framerate, _, _) = url[:-4].rsplit("_", 7)
+                codec = "HEVC"
+                color_depth = color_depth.upper()
+                resolution = f"4K{framerate}"
+            else:
+                (path, color_depth, resolution, codec) = url[:-4].rsplit("_", 3)
         except ValueError:
             path = url[:-4]
             color_depth = "SDR"
@@ -446,7 +476,9 @@ def _start_download(file_list, formats):
                     )
                 elif requested_format == "best-sdr":
                     url, destination = (
-                        prepared_list.get("4k-hevc", False)
+                        prepared_list.get("4k-240", False)
+                        or prepared_list.get("4k-120", False)
+                        or prepared_list.get("4k-hevc", False)
                         or prepared_list.get("hevc", False)
                         or prepared_list.get("h264", False)
                         or (None, None)
@@ -455,6 +487,8 @@ def _start_download(file_list, formats):
                     url, destination = prepared_list.get(requested_format, (None, None))
 
                 if url and destination:
+                    print(url)
+                    continue
                     response = requests.get(
                         url, stream=True, verify=("AppleIncRootCertificate.pem")
                     )
@@ -476,15 +510,22 @@ def _start_download(file_list, formats):
                             print(f"[*] Downloading '{destination}' [{human_size}]..")
 
                             downloaded = 0
+                            start = time.perf_counter()
 
-                            for data in response.iter_content(
-                                chunk_size=max(int(total / 1000), 1024 * 1024)
-                            ):
+                            for data in response.iter_content(chunk_size=(1 << 20)):
                                 downloaded += len(data)
                                 local_file.write(data)
                                 done = int(50 * downloaded / total)
-                                sys.stdout.write(
-                                    "\r[{}{}]".format("█" * done, "." * (50 - done))
+                               sys.stdout.write(
+                                    "\r[{}{}] {:7.2f}% ({})".format(
+                                        "█" * done,
+                                        "." * (50 - done),
+                                        downloaded * 100.0 / file_size,
+                                        _file_size(
+                                            downloaded * 8 / (time.perf_counter() - start),
+                                            "bit/s",
+                                        ),
+                                    )
                                 )
                                 sys.stdout.flush()
 
@@ -538,7 +579,7 @@ def main(argv=None):
         print(
             "Usage: aerial_download.py "
             "[FORMATS]\n\n"
-            "Available Formats: 4k-hdr, 4k-hevc, hdr, hevc, h264"
+            "Available Formats: 4k-hdr, 4k-hevc, 4k-240fps, 4k-120fps, hdr, hevc, h264"
         )
 
         return 1

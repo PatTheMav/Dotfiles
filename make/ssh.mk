@@ -45,7 +45,8 @@ ssh : | $(SSH_CONFIG) $(SSH_KEYS)
 	@read -r SSH_MAIL < $(PWD)/.github_contact && \
 	 ssh-keygen -o -a 100 -t ed25519 -C "$${SSH_MAIL}" -f $@ && \
 	 git config --global user.email "$${SSH_MAIL}" && \
-	 if [[ ! -f $(HOME)/.config/git/allowed_signers ]]; then touch $(HOME)/.config/git/allowed_signers; fi \
+	 if [[ ! -f $(HOME)/.config/git/allowed_signers ]]; then mkdir -p $(HOME)/.config/git; \
+	 	touch $(HOME)/.config/git/allowed_signers; fi && \
 	 echo "$${SSH_MAIL} $$(<$@.pub)" >> $(HOME)/.config/git/allowed_signers
 	@git config --global user.signingKey "$$(<$@.pub)"
 	@git config --global gpg.format ssh

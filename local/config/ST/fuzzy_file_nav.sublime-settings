@@ -1,0 +1,5 @@
+{
+    "bookmarks": [
+        {"name": "Home", "path": {"#multiconf#": [{"os:linux": "~"}, {"os:osx": "~"}]}}
+    ]
+}

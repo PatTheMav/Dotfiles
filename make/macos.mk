@@ -34,7 +34,7 @@ SFMONO := \
 	SF-Mono-Semibold.otf \
 	SF-Mono-SemiboldItalic.otf
 SFMONO_SOURCE := /System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts
-SFMONO_PTM_SOURCE := U2FsdGVkX19bIiXE60GNWW4WxD7hVmwG3L+Jog5k1cYmyfz3UryAPdVhbUJjswQNqJWfWa61WFYLK4s3/BQphI9PRCYzuYJVQju1XF9skLENdkuirejzB3nxQHqQMSOv
+SFMONO_PTM_SOURCE := U2FsdGVkX19apiR8TMAMUyjRbfwzaFZcfiXkYtwd+O5jvTdybVWRO9C+GizmnLcoZeW1xjcb4PeBuhJfruZii9W9zZTG2zgQgSkmovLeNYg=
 
 DECRYPT_HOOKS += decrypt-macos
 
@@ -124,7 +124,7 @@ custom-zsh : | $(BREW_ROOT)/Cellar/zsh
 decrypt-macos : | $(LIBRARY)/Fonts
 	@$(OUTPUT) "\033[32m==> \033[37;1mDecrypting SF Mono PTM...\033[0m"
 	@sh -c 'curl_path="$$(echo "$(SFMONO_PTM_SOURCE)" | openssl base64 -A -d | openssl enc -d -aes-256-cbc -md sha512)"; \
-	cd $(PWD)/local/fonts/ && curl $$curl_path -s -o SF-Mono-PTM.tgz && tar -xf SF-Mono-PTM.tgz && rm SF-Mono-PTM.tgz'
+	cd $(PWD)/local/fonts/ && curl $$curl_path -s -o SF-Mono-PTM.tar.xz && tar -xJf SF-Mono-PTM.tar.xz && rm SF-Mono-PTM.tar.xz'
 	@rm -f $(HOME)/Library/Fonts/SF-Mono-PTM-*.otf(N)
 	@mv $(PWD)/local/fonts/SF-Mono-PTM-*.otf $(LIBRARY)/Fonts
 

@@ -62,7 +62,7 @@ if ${AUTOMATIC_PATCH}; then
     fi
 
     git apply "${PATCH_FILE}"
-    CHANGES=$(grep '+++\|---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^   ]*\).*/\1/g' | sort | uniq)
+    CHANGES=$(grep '^+++\|^---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^ 	]*\).*/\1/g' | sort | uniq)
 
     echo "${CHANGES}" | xargs git add
     exit 0
@@ -97,7 +97,7 @@ if [[ "${RESPONSE}" == "y" || "${RESPONSE}" == "Y" ]]; then
 
     git apply "${PATCH_FILE}"
 
-    CHANGES=$(grep '+++\|---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^   ]*\).*/\1/g' | sort | uniq)
+    CHANGES=$(grep '^+++\|^---' "${PATCH_FILE}" | sed 's/^[+-]\{3\} .\/\([^   ]*\).*/\1/g' | sort | uniq)
 
     echo $'\nChanged files:'
     echo "${CHANGES}"

@@ -79,7 +79,8 @@
 	"rulers":
 	[
 		79,
-		99
+		99,
+		120
 	],
 	"show_encoding": true,
 	"tab_size": 4,

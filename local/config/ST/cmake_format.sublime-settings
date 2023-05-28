@@ -1,5 +1,5 @@
 {
 	"binary": "cmake-format",
-	"format_on_save": true,
+	"format_on_save": false,
 	"autosort": true
 }

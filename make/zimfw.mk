@@ -29,6 +29,7 @@ zimfw : | $(ZIM_LOCATION) $(P10K_LOCATION) $(M2_LOCATION)
 
 %/zimfw.zsh : SHELL = $(ZSH_BIN)
 update-zimfw : SHELL = $(ZSH_BIN)
+upgrade-zimfw : SHELL = $(ZSH_BIN)
 clean-zimfw : SHELL = $(ZSH_BIN)
 
 %/zimfw.zsh :
@@ -52,7 +53,7 @@ upgrade-zimfw : | $(ZIM_LOCATION)
 	@$(OUTPUT) "\033[32m==> \033[37;1mUpgrading zim framework...\033[0m"
 	@$(ZIMFW_INIT) zimfw upgrade
 	@$(OUTPUT) "\033[32m==> \033[37;1mPatching zim framework...\033[0m"
-	@sed -i '' -E -e 's/{green})/{green}✓/' $(ZIM_LOCATION)
+	@$(SED) -e 's/{green})/{green}✓/' $(ZIM_LOCATION)
 
 clean-zimfw : | $(ZIM_LOCATION)
 	@$(OUTPUT) "\033[32m==> \033[37;1mCleaning up zim framework...\033[0m"

@@ -13,6 +13,7 @@ INCLUDED_OS_CONFIG := TRUE
 
 ## VARIABLES
 OUTPUT := echo
+SED := sed -i ''
 CPU_BRAND := $(shell sysctl -n machdep.cpu.brand_string | cut -d " " -f 1)
 ZSH_BIN := $(shell which zsh)
 SHELL := $(ZSH_BIN)

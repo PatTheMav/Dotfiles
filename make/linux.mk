@@ -13,6 +13,7 @@ INCLUDED_OS_CONFIG := TRUE
 
 ## VARIABLES
 OUTPUT := echo -e
+SED := sed -i''
 BASH_BIN := $(shell which bash)
 SHELL := $(BASH_BIN)
 .SHELLFLAGS := -ec

@@ -3,6 +3,11 @@
 set -e
 set -o pipefail
 
+CHANGED_FILES=$(git diff --name-only --cached --diff-filter=ACMR)
+if [[ -z "${CHANGED_FILES}" || ! "${CHANGED_FILES}" =~ CMakeLists.txt|.*\.(c|h|cpp|hpp|m|mm|swift|cmake)$ ]]; then
+    exit
+fi
+
 AUTOMATIC_PATCH=false
 
 if [[ "${__CFBundleIdentifier}" == "com.sublimemerge" ]]; then

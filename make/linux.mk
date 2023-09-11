@@ -78,4 +78,4 @@ $(PKG_CMD) : $(CURL_CMD)
 ## Link batcat to bat in user binary directory
 /usr/local/bin/bat : | /usr/bin/batcat
 	@$(OUTPUT) "\033[32m==> \033[37;1mLinking $(notdir $@)...\033[0m"
-	@ln -fsv $$(readlink /usr/bin/batcat) /usr/local/bin/bat
+	@sudo ln -fsv /usr/bin/batcat /usr/local/bin/bat

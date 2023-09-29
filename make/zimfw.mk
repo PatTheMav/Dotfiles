@@ -53,7 +53,7 @@ upgrade-zimfw : | $(ZIM_LOCATION)
 	@$(OUTPUT) "\033[32m==> \033[37;1mUpgrading zim framework...\033[0m"
 	@$(ZIMFW_INIT) zimfw upgrade
 	@$(OUTPUT) "\033[32m==> \033[37;1mPatching zim framework...\033[0m"
-	@$(SED) -e 's/{green})/{green}✓/' $(ZIM_LOCATION)
+	@$(SED) -E -e 's/E\[32m\)/E\[32m\✓/' $(ZIM_LOCATION)
 
 clean-zimfw : | $(ZIM_LOCATION)
 	@$(OUTPUT) "\033[32m==> \033[37;1mCleaning up zim framework...\033[0m"

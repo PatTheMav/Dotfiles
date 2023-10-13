@@ -30,3 +30,7 @@ cask 'openemu'
 
 tap 'patthemav/custom'
 brew 'vim-custom', args: ["with-gettext"]
+
+tap 'keith/formulae'
+brew 'zsh-xcode-completions'
+

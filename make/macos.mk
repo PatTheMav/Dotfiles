@@ -73,6 +73,7 @@ os-defaults : $(LAUNCH_AGENTS) $(addprefix $(LIBRARY)/Fonts/, $(SFMONO))
 	   }; \
 	 done; \
 	 if (( changed > 0 )) killall Dock
+	@defaults write com.apple.dt.Xcode IDEIndexShowLog -bool true
 
 ## Create launch agents directory in user library
 $(LIBRARY)/LaunchAgents :

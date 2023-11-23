@@ -1,6 +1,6 @@
 {
 	"256color": true,
-	"unix_term": "linux",
+	"unix_term": "xterm-256color",
 	"theme": "user",
     "user_theme_colors": {
         "background": "#303841",

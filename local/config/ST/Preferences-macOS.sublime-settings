@@ -115,4 +115,5 @@
 	"show_tab_close_buttons": true,
 	"auto_hide_status_bar": false,
 	"file_tab_style": "square",
+	"vintageous_use_super_keys": false
 }

@@ -69,11 +69,13 @@ os-defaults : $(LAUNCH_AGENTS) $(addprefix $(LIBRARY)/Fonts/, $(SFMONO))
 		 if (( result < 1 )) { \
 		 	 changed=1; \
 	     $(OUTPUT) "\033[32m==> \033[37;1mEnabling macOS default '$${DEFAULT}'...\033[0m"; \
-	     defaults write com.apple.dock "$${DEFAULT}" -bool true; \
+	     defaults write com.apple.dock "$${DEFAULT}" -bool YES; \
 	   }; \
 	 done; \
 	 if (( changed > 0 )) killall Dock
-	@defaults write com.apple.dt.Xcode IDEIndexShowLog -bool true
+	 @defaults write com.apple.dt.Xcode IDEIndexShowLog -bool YES
+	 @defaults write com.apple.dt.Xcode IDEShowPrebuildLogs -bool YES
+	 @defaults write com.apple.dt.Xcode ShowBuildOperationDuration -bool YES
 
 ## Create launch agents directory in user library
 $(LIBRARY)/LaunchAgents :

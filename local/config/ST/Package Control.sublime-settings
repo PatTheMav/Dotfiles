@@ -16,6 +16,7 @@
 		"FuzzyFileNav",
 		"JsPrettier",
 		"LSP",
+		"LSP-clangd",
 		"LSP-css",
 		"LSP-html",
 		"LSP-intelephense",

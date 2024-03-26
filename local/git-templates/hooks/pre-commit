@@ -14,7 +14,7 @@ if [[ "${__CFBundleIdentifier}" == "com.sublimemerge" ]]; then
     AUTOMATIC_PATCH=true
 fi
 
-HAS_CMAKE_FORMAT=false
+HAS_GERSEMI=false
 HAS_CLANG_FORMAT=false
 HAS_SWIFT_FORMAT=false
 CLANG_FORMAT="clang-format"
@@ -31,8 +31,8 @@ if type swift-format &> /dev/null; then
     HAS_SWIFT_FORMAT=true
 fi
 
-if type cmake-format &> /dev/null; then
-    HAS_CMAKE_FORMAT=true
+if type gersemi &> /dev/null; then
+    HAS_GERSEMI=true
 fi
 
 if git rev-parse --verify HEAD &> /dev/null; then
@@ -53,8 +53,8 @@ git diff-index --cached --diff-filter=ACMR --name-only ${RELATION} -- | while re
 
     if ${HAS_CLANG_FORMAT} && [[ "${FILE}" =~ .*\.(c|h|cpp|hpp|m|mm)$ ]]; then
         ${CLANG_FORMAT} --style=file "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
-    elif ${HAS_CMAKE_FORMAT} && [[ "${FILE}" =~ (CMakeLists.txt|.*\.cmake)$ ]]; then
-        cmake-format "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+    elif ${HAS_GERSEMI} && [[ "${FILE}" =~ (CMakeLists.txt|.*\.cmake)$ ]]; then
+        gersemi "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
     elif ${HAS_SWIFT_FORMAT} && [[ "${FILE}" =~ .*\.(swift)$ ]]; then
         swift-format "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
     fi

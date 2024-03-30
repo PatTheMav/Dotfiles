@@ -19,9 +19,9 @@ HAS_CLANG_FORMAT=false
 HAS_SWIFT_FORMAT=false
 CLANG_FORMAT="clang-format"
 
-if type clang-format-16 &> /dev/null; then
+if type clang-format-17 &> /dev/null; then
     HAS_CLANG_FORMAT=true
-    CLANG_FORMAT="clang-format-16"
+    CLANG_FORMAT="clang-format-17"
 elif type clang-format &> /dev/null; then
     HAS_CLANG_FORMAT=true
     CLANG_FORMAT="clang-format"

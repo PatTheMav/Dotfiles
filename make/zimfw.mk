@@ -11,10 +11,11 @@ INCLUDED_ZSH_CONFIG = TRUE
 
 ## Variables
 ZSH_BIN := $(BIN_DIR)/zsh
+ZIM_HOME := $(HOME)/.zim
 ZIM_LOCATION := $(HOME)/.zim/zimfw.zsh
 P10K_LOCATION := $(HOME)/.p10k.zsh
 M2_LOCATION := $(HOME)/.m2.zsh
-ZIMFW_INIT = source $${ZDOTDIR:-$${HOME}}/.zim/init.zsh &&
+ZIMFW_INIT = export ZIM_HOME=$(ZIM_HOME); source $${ZDOTDIR:-$${HOME}}/.zim/init.zsh &&
 
 ifneq ($(wildcard $(ZIM_LOCATION)),)
 UPDATE_HOOKS += upgrade-zimfw update-zimfw
@@ -57,7 +58,7 @@ upgrade-zimfw : | $(ZIM_LOCATION)
 
 clean-zimfw : | $(ZIM_LOCATION)
 	@$(OUTPUT) "\033[32m==> \033[37;1mCleaning up zim framework...\033[0m"
-	@$(ZIMFW_INIT) zimfw uninstall
+	@ZIM_HOME=$(ZIM_HOME) $(ZIMFW_INIT) zimfw uninstall
 
 decrypt-zimfw : | $(ZIM_LOCATION) $(PWD)/zim/tokens.zsh
 

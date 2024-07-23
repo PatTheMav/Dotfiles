@@ -46,7 +46,9 @@ PATCH_FILE="$(mktemp -t "pre-commit-${REPO_NAME}")"
 chmod g+rw,a+rw "${PATCH_FILE}"
 find ${TMPDIR} -maxdepth 1 -name "pre-commit-${REPO_NAME}*" -type f -mtime 7 -delete
 
-git diff-index --cached --diff-filter=ACMR --name-only ${RELATION} -- | while read FILE; do
+_GERSEMI_FILES=()
+
+while read FILE; do
     if [[ -L "${FILE}" ]]; then
         continue
     fi
@@ -54,11 +56,15 @@ git diff-index --cached --diff-filter=ACMR --name-only ${RELATION} -- | while re
     if ${HAS_CLANG_FORMAT} && [[ "${FILE}" =~ .*\.(c|h|cpp|hpp|m|mm)$ ]]; then
         ${CLANG_FORMAT} --style=file "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
     elif ${HAS_GERSEMI} && [[ "${FILE}" =~ (CMakeLists.txt|.*\.cmake)$ ]]; then
-        gersemi "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
+        _GERSEMI_FILES+=("${FILE}")
     elif ${HAS_SWIFT_FORMAT} && [[ "${FILE}" =~ .*\.(swift)$ ]]; then
         swift-format "${FILE}" | { diff -u "${FILE}" - || :; } | sed -e "1s|--- |--- a/|" -e "2s|+++ -|+++ b/${FILE}|" >> "${PATCH_FILE}"
     fi
-done
+done <<< "$(git diff-index --cached --diff-filter=ACMR --name-only ${RELATION} --)"
+
+if (( ${#_GERSEMI_FILES[@]} )); then
+    gersemi "${_GERSEMI_FILES[@]}" --diff | sed -e "s|--- ${PWD}/|--- a/|" -e "s|+++ ${PWD}/|+++ b/|" >> "${PATCH_FILE}"
+fi
 
 if ${AUTOMATIC_PATCH}; then
     if [[ ! -s "${PATCH_FILE}" ]]; then

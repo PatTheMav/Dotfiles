@@ -384,7 +384,8 @@ def _parse_aerial_files():
         "tvOS 16": "https://sylvan.apple.com/Aerials/resources-16.tar",
         "tvOS 13": "https://sylvan.apple.com/Aerials/resources-13.tar",
         "tvOS 10": "http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json",
-        "macOS 14": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-14-0-3.tar"
+        "macOS 14": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-14-0-3.tar",
+        "macOS 15": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-14-0-10.tar"
     }
 
     for version, source_url in video_list.items():
@@ -454,8 +455,8 @@ def _start_download(file_list, formats):
         if magnitude > 7:
             return f"{val:.1f}Yi{suffix}"
         else:
-            prefix = ["", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"][magnitude]
-            return f"{val:3.1f}{prefix}{suffix}"
+            prefix = ["", "K", "M", "G", "T", "P", "E", "Z"][magnitude]
+            return f"{val:8.2f} {prefix}{suffix}"
 
     for (location, scenes) in file_list.items():
         print(f"[*] Processing location {location}...")
@@ -470,29 +471,28 @@ def _start_download(file_list, formats):
             for requested_format in formats:
                 if requested_format == "best-hdr":
                     url, destination = (
-                        prepared_list.get("4k-hdr", False)
-                        or prepared_list.get("hdr", False)
-                        or (None, None)
+                        prepared_list.get("4k-hdr", None) or
+                        prepared_list.get("hdr", None) or
+                        (None, None)
                     )
                 elif requested_format == "best-sdr":
                     url, destination = (
-                        prepared_list.get("4k-240", False)
-                        or prepared_list.get("4k-120", False)
-                        or prepared_list.get("4k-hevc", False)
-                        or prepared_list.get("hevc", False)
-                        or prepared_list.get("h264", False)
-                        or (None, None)
+                        prepared_list.get("4k-240", None) or
+                        prepared_list.get("4k-120", None) or
+                        prepared_list.get("4k-hevc", None) or
+                        prepared_list.get("hevc", None) or
+                        prepared_list.get("h264", None) or
+                        (None, None)
                     )
                 else:
                     url, destination = prepared_list.get(requested_format, (None, None))
 
                 if url and destination:
-                    print(url)
-                    continue
                     response = requests.get(
                         url, stream=True, verify=("AppleIncRootCertificate.pem")
                     )
-                    total = int(response.headers.get("content-length"))
+
+                    total = int(response.headers.get("content-length", "0"))
 
                     if os.path.exists(destination):
                         file_size = os.stat(destination).st_size
@@ -516,11 +516,11 @@ def _start_download(file_list, formats):
                                 downloaded += len(data)
                                 local_file.write(data)
                                 done = int(50 * downloaded / total)
-                               sys.stdout.write(
+                                sys.stdout.write(
                                     "\r[{}{}] {:7.2f}% ({})".format(
                                         "█" * done,
                                         "." * (50 - done),
-                                        downloaded * 100.0 / file_size,
+                                        downloaded * 100.0 / total,
                                         _file_size(
                                             downloaded * 8 / (time.perf_counter() - start),
                                             "bit/s",
@@ -531,8 +531,7 @@ def _start_download(file_list, formats):
 
                     sys.stdout.write("\n")
 
-
-def main(argv=None):
+def main(argv=[]):
     num_arguments = len(argv)
 
     if num_arguments > 1:

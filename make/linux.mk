@@ -67,7 +67,7 @@ custom-zsh : | $(BIN_DIR)/zsh
 endif
 
 ## Install Homebrew
-$(PKG_CMD) : $(CURL_CMD)
+$(PKG_CMD) : | $(CURL_CMD)
 	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling Homebrew...\033[0m"
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.zshrc

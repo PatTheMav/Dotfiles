@@ -49,7 +49,7 @@
     navigate = true
     right-arrow = "-> "
     side-by-side = true
-    syntax-theme = base16
+    syntax-theme = base16-256
 
 [delta "interactive"]
     keep-plus-minus-markers = false

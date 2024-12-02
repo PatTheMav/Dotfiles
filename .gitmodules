@@ -1,10 +1,6 @@
 [submodule "vim/pack/ptm/start/vim-airline"]
 	path = vim/pack/ptm/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
-[submodule "vim/pack/ptm/start/base16-vim"]
-	path = vim/pack/ptm/start/base16-vim
-	url = https://github.com/tinted-theming/base16-vim
-	branch = main
 [submodule "vim/pack/ptm/start/vim-airline-themes"]
 	path = vim/pack/ptm/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git

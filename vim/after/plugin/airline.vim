@@ -24,21 +24,20 @@ if exists('g:airline#init#vim_async')
         let g:airline_right_alt_sep = ''
         let g:airline_symbols.branch = ''
         let g:airline_symbols.readonly = ''
-        let g:airline_symbols.colnr = ' ℅:'
-        "let g:airline_symbols.linenr = ' :'
+        let g:airline_symbols.colnr = '℅'
         let g:airline_symbols.linenr = ' ㏑'
-        let g:airline_symbols.maxlinenr = '☰ '
+        let g:airline_symbols.maxlinenr = '≡ '
         let g:airline_symbols.dirty=' ⚡'
     else
         let g:airline_left_sep = ''
         let g:airline_left_alt_sep = ''
         let g:airline_right_sep = ''
         let g:airline_right_alt_sep = ''
-        let g:airline_symbols.colnr = ' ℅:'
+        let g:airline_symbols.colnr = ' ℅ :'
         let g:airline_symbols.branch = '⎇'
         let g:airline_symbols.readonly = '✖︎'
         let g:airline_symbols.linenr = ' ㏑'
-        let g:airline_symbols.maxlinenr = '☰ '
+        let g:airline_symbols.maxlinenr = '≡ '
     end
     
     " Set airline theme
@@ -86,5 +85,4 @@ else
     " hi User4 guifg=#a0ee40 guibg=#222222 ctermfg=DarkGreen ctermbg=0
     " hi User5 guifg=#eeee40 guibg=#222222 ctermfg=LightGreen ctermbg=0
 end
-
 

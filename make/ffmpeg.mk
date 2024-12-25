@@ -12,7 +12,7 @@ INCLUDED_FFMPEG_CONFIG = TRUE
 
 ## VARIABLES
 ffmpeg-custom_LOCATION := $(BREW_ROOT)/Cellar/ffmpeg-custom
-ffmpeg-custom_OPTIONS := --with-webp --with-speex --with-rav1e --with-srt --with-librist
+ffmpeg-custom_OPTIONS := --with-webp --with-speex --with-srt --with-dav1d
 
 ## TARGETS
 .PHONY : ffmpeg

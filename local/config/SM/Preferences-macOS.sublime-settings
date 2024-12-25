@@ -11,4 +11,5 @@
 	"highlight_modified_tabs": true,
 	"auto_hide_status_bar": false,
 	"diff_style": "inline",
+	"diff_algorithm": "histogram",
 }

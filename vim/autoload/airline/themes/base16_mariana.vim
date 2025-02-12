@@ -24,6 +24,14 @@ let s:gui0C = '#5FB4B4'
 let s:gui0D = '#6699CC'
 let s:gui0E = '#C695C6'
 let s:gui0F = '#F97B58'
+let s:gui10 = '#303841'
+let s:gui11 = '#303841'
+let s:gui12 = '#A6ACB9'
+let s:gui13 = '#FAC761'
+let s:gui14 = '#99C794'
+let s:gui15 = '#5FB4B4'
+let s:gui16 = '#6699CC'
+let s:gui17 = '#C695C6'
 
 " Terminal color definitions
 let s:cterm00        = "00"

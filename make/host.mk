@@ -44,6 +44,8 @@ $(BIN_DIR)/batcat :
 update-packages : | $(PKG_CMD) $(PKG_PREREQS)
 	@$(OUTPUT) "\033[32m==> \033[37;1mUpdating $(PKG_NAME) packages...\033[0m"
 	@sudo $(PKG_CMD) update && sudo $(PKG_CMD) upgrade || true
+	@if type -f -p tldr &> /dev/null; then tldr --update >/dev/null; fi
+	@if type -f -p bat &> /dev/null; then bat cache --build > /dev/null; fi
 
 else
 ## Install Homebrew

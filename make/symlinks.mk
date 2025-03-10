@@ -29,7 +29,7 @@ symlinks = \
 .PHONY : ln
 
 ## Symlinks files and folders from dotfiles to home directory
-ln: | $(addprefix $(HOME)/.,$(symlinks))
+ln : | $(addprefix $(HOME)/.,$(symlinks))
 
 ## Per symlink implicit rule
 $(HOME)/.% : $(PWD)/%

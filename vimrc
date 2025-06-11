@@ -227,19 +227,17 @@ if has("gui_running")
     " set t_Co=256
     set guitablabel=%M\ %t
 else
+    if exists('$COLORTERM')
+        set termguicolors
+    endif
+
     if exists('$BASE16_THEME') && (!exists('g:colors_name') || g:colors_name != 'base16-$BASE16_THEME')
+        set notermguicolors
         let base16colorspace=256
         colorscheme base16-$BASE16_THEME
     else
-        colorscheme base16-mariana
-        " As long as Terminal.app doesn't properly support
-        " setting colors in the color space, 'termguicolors'
-        " won't work with Terminal.app. If another terminal is
-        " mainly used, uncomment.
-        if (has("termguicolors") && has("linux"))
-            set termguicolors
-            let base16colorspace=256
-        endif
+        colorscheme mariana
+        let mariana_transparent_bg=1
     endif
 endif
 
@@ -261,6 +259,8 @@ set nofoldenable
 set foldlevel=1
 " Define commands that open folds
 set foldopen=block,insert,jump,mark,percent,quickfix,search,tag,undo
+" Set fold column width in gutter
+set foldcolumn=0
 " If editing files of type 'html' xml closing tags will be xhtml compatible
 " e.g. <hr> becomes <hr />
 let xml_use_xhtml=1

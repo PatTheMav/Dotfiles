@@ -45,7 +45,7 @@ if exists('g:airline#init#vim_async')
         let s:scheme_slug = substitute($BASE16_THEME, "-", "_", "g")
         let g:airline_theme='base16_' . s:scheme_slug
     else
-        let g:airline_theme='base16_mariana'
+        let g:airline_theme='mariana'
     endif
 
     set noshowmode
@@ -73,12 +73,12 @@ else
     set statusline+=%=%<
     set statusline+=%5*(%{&fileformat})%*
     set statusline+=%3*[%{strlen(&ft)?&ft:'none'}%*
-    set statusline+=%3*\ →%{strlen(&fenc)?&fenc:&enc}]%*
+    set statusline+=%3*\ → %{strlen(&fenc)?&fenc:&enc}]%*
     set statusline+=%1*%5.P%*
     set statusline+=%(%1*%5l%*%2*/%L%)\ %*
     set statusline+=%1*%4v\ %*
     set statusline+=%2*0x%04B\ %*
-    hi statusline ctermfg=15 ctermbg=0
+    " hi statusline ctermfg=15 ctermbg=0
     " hi User1 guifg=#eea040 guibg=#222222 ctermfg=Brown ctermbg=0
     " hi User2 guifg=#dd3333 guibg=#222222 ctermfg=DarkRed ctermbg=0
     " hi User3 guifg=#ff66ff guibg=#222222 ctermfg=DarkMagenta ctermbg=0

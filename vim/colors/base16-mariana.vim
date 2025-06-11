@@ -24,8 +24,8 @@ let s:gui01        = "4d5863"
 let g:base16_gui01 = "4d5863"
 let s:gui02        = "646d82"
 let g:base16_gui02 = "646d82"
-let s:gui03        = "546e7a"
-let g:base16_gui03 = "546e7a"
+let s:gui03        = "a6acb9"
+let g:base16_gui03 = "a6acb9"
 let s:gui04        = "b2ccd6"
 let g:base16_gui04 = "b2ccd6"
 let s:gui05        = "eeffff"
@@ -34,8 +34,8 @@ let s:gui06        = "eeffff"
 let g:base16_gui06 = "eeffff"
 let s:gui07        = "ffffff"
 let g:base16_gui07 = "ffffff"
-let s:gui08        = "a6acb9"
-let g:base16_gui08 = "a6acb9"
+let s:gui08        = "ec5f66"
+let g:base16_gui08 = "ec5f66"
 let s:gui09        = "f9ae58"
 let g:base16_gui09 = "f9ae58"
 let s:gui0A        = "fac761"
@@ -50,6 +50,13 @@ let s:gui0E        = "c695c6"
 let g:base16_gui0E = "c695c6"
 let s:gui0F        = "f97b58"
 let g:base16_gui0F = "f97b58"
+
+""""""""""""""""""""""""""""""""""
+" let s:gui03        = "546e7a"
+" let g:base16_gui03 = "546e7a"
+" let s:gui08        = "a6acb9"
+" let g:base16_gui08 = "a6acb9"
+""""""""""""""""""""""""""""""""""
 
 " Terminal color definitions
 let s:cterm00        = "00"
@@ -103,15 +110,15 @@ endif
 " Neovim terminal colours
 if has("nvim")
   let g:terminal_color_0 =  "#303841"
-  let g:terminal_color_1 =  "#a6acb9"
+  let g:terminal_color_1 =  "#ec5f66"
   let g:terminal_color_2 =  "#99c794"
   let g:terminal_color_3 =  "#fac761"
   let g:terminal_color_4 =  "#6699cc"
   let g:terminal_color_5 =  "#c695c6"
   let g:terminal_color_6 =  "#5fb4b4"
   let g:terminal_color_7 =  "#eeffff"
-  let g:terminal_color_8 =  "#546e7a"
-  let g:terminal_color_9 =  "#a6acb9"
+  let g:terminal_color_8 =  "#a6acb9"
+  let g:terminal_color_9 =  "#ec5f66"
   let g:terminal_color_10 = "#99c794"
   let g:terminal_color_11 = "#fac761"
   let g:terminal_color_12 = "#6699cc"
@@ -127,15 +134,15 @@ if has("nvim")
 elseif has("terminal")
   let g:terminal_ansi_colors = [
         \ "#303841",
-        \ "#a6acb9",
+        \ "#ec5f66",
         \ "#99c794",
         \ "#fac761",
         \ "#6699cc",
         \ "#c695c6",
         \ "#5fb4b4",
         \ "#eeffff",
-        \ "#546e7a",
         \ "#a6acb9",
+        \ "#ec5f66",
         \ "#99c794",
         \ "#fac761",
         \ "#6699cc",
@@ -143,6 +150,14 @@ elseif has("terminal")
         \ "#5fb4b4",
         \ "#ffffff",
         \ ]
+endif
+
+if exists('g:base16_background_transparent') && g:base16_background_transparent ==? '1'
+    let s:guibg = 'NONE'
+    let s:ctermbg = 'NONE'
+else
+    let s:guibg = s:gui00
+    let s:ctermbg = s:cterm00
 endif
 
 " Theme setup
@@ -197,7 +212,7 @@ fun <sid>hi(group, guifg, guibg, ctermfg, ctermbg, attr, guisp)
 endfun
 
 " Vim editor colors
-call <sid>hi("Normal",        s:gui05, s:gui00, s:cterm05, s:cterm00, "", "")
+call <sid>hi("Normal",        s:gui05, s:guibg, s:cterm05, s:ctermbg, "", "")
 call <sid>hi("Bold",          "", "", "", "", "bold", "")
 call <sid>hi("Debug",         s:gui08, "", s:cterm08, "", "", "")
 call <sid>hi("Directory",     s:gui0D, "", s:cterm0D, "", "", "")

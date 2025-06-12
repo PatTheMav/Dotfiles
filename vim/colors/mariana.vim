@@ -89,6 +89,27 @@ if exists('g:mariana_transparent_bg') && mariana_transparent_bg ==? 1
   let s:sign_bg = 'NONE'
 endif
 
+if has("terminal")
+    let g:terminal_ansi_colors = [
+        \ s:black.gui,
+        \ s:red.gui,
+        \ s:green.gui,
+        \ s:orange.gui,
+        \ s:blue.gui,
+        \ s:pink.gui,
+        \ s:cyan.gui,
+        \ s:white.gui,
+        \ s:bright_black.gui,
+        \ s:bright_red.gui,
+        \ s:bright_green.gui,
+        \ s:bright_orange.gui,
+        \ s:bright_blue.gui,
+        \ s:bright_pink.gui,
+        \ s:bright_cyan.gui,
+        \ s:bright_white.gui
+        \ ]
+endif
+
 function! s:h(group, fg, bg, attr)
   if type(a:fg) == type({})
     exec "hi " . a:group . " guifg=" . a:fg.gui . " ctermfg=" . a:fg.cterm

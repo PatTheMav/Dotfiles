@@ -24,7 +24,8 @@ symlinks = \
 	vim \
 	config \
 	tmux \
-	tmux.conf
+	tmux.conf \
+	lldbinit
 	
 .PHONY : ln
 

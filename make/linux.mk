@@ -32,7 +32,7 @@ PKG_NAME := brew
 BIN_DIR := $(BREW_ROOT)/bin
 
 $(CURL_CMD) :
-	@$(OUTPUT) "\033[34m==> \033[37;1mInstalling curl to fetch Homebrew installer...\033[0m"; \
+	@$(OUTPUT) "\033[34m==> \033[39;1mInstalling curl to fetch Homebrew installer...\033[0m"; \
 	@sudo apt install curl
 
 endif
@@ -61,14 +61,14 @@ os-defaults : ;
 custom-zsh : | $(BIN_DIR)/zsh
 	@TARGET_SHELL=$$(which zsh); \
 	cat /etc/shells | grep -q "$${TARGET_SHELL}" || \
-	$(OUTPUT) "\033[34m==> \033[37;1mSetting default shell to zsh (will ask for password)...\033[0m"; \
+	$(OUTPUT) "\033[34m==> \033[39;1mSetting default shell to zsh (will ask for password)...\033[0m"; \
 	echo "$${TARGET_SHELL}" | sudo tee -a /etc/shells && \
 	chsh -s "$${TARGET_SHELL}"
 endif
 
 ## Install Homebrew
 $(PKG_CMD) : | $(CURL_CMD)
-	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling Homebrew...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mInstalling Homebrew...\033[0m"
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.zshrc
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.bashrc
@@ -77,5 +77,5 @@ $(PKG_CMD) : | $(CURL_CMD)
 
 ## Link batcat to bat in user binary directory
 /usr/local/bin/bat : | /usr/bin/batcat
-	@$(OUTPUT) "\033[32m==> \033[37;1mLinking $(notdir $@)...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mLinking $(notdir $@)...\033[0m"
 	@sudo ln -fsv /usr/bin/batcat /usr/local/bin/bat

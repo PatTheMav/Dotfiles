@@ -34,7 +34,7 @@ upgrade-zimfw : SHELL = $(ZSH_BIN)
 clean-zimfw : SHELL = $(ZSH_BIN)
 
 %/zimfw.zsh :
-	@$(OUTPUT) "\033[34m==> \033[37;1mInstalling zim framework...\033[0m"
+	@$(OUTPUT) "\033[34m==> \033[39;1mInstalling zim framework...\033[0m"
 	@mkdir -p $(dir $@)
 	@curl -fsSL https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh -o $@
 	@source $@ install
@@ -46,24 +46,24 @@ clean-zimfw : SHELL = $(ZSH_BIN)
 	@ln -fsv $(PWD)/zim/m2.zsh $@
 
 update-zimfw : | $(ZIM_LOCATION)
-	@$(OUTPUT) "\033[32m==> \033[37;1mUpdating zim framework...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mUpdating zim framework...\033[0m"
 	@$(ZIMFW_INIT) zimfw install
 	@$(ZIMFW_INIT) zimfw update
 
 upgrade-zimfw : | $(ZIM_LOCATION)
-	@$(OUTPUT) "\033[32m==> \033[37;1mUpgrading zim framework...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mUpgrading zim framework...\033[0m"
 	@$(ZIMFW_INIT) zimfw upgrade
-	@$(OUTPUT) "\033[32m==> \033[37;1mPatching zim framework...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mPatching zim framework...\033[0m"
 	@$(SED) -e 's/_zokay="\$${_zgreen}) \$${_znormal}"/_zokay="\$${_zgreen}✓ \$${_znormal}"/' $(ZIM_LOCATION)
 
 clean-zimfw : | $(ZIM_LOCATION)
-	@$(OUTPUT) "\033[32m==> \033[37;1mCleaning up zim framework...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mCleaning up zim framework...\033[0m"
 	@ZIM_HOME=$(ZIM_HOME) $(ZIMFW_INIT) zimfw uninstall
 
 decrypt-zimfw : | $(ZIM_LOCATION) $(PWD)/zim/tokens.zsh
 
 %.zsh : %.zsh.enc
-	@$(OUTPUT) "\033[32m==> \033[37;1mDecrypting zim framework files...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mDecrypting zim framework files...\033[0m"
 	@openssl enc -aes-256-cbc -d -md sha512 -in $< -out $@
 	@ln -Fsv $@ $(HOME)/.zim/modules/zimfw-extras/$(notdir $@)
 

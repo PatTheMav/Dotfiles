@@ -28,7 +28,7 @@ ssh : | $(SSH_CONFIG) $(SSH_KEYS)
 ## Genereate ed25519 key pair
 
 %/id_ed25519 : | $(SSH_DIR)
-	@$(OUTPUT) "\033[32m==> \033[37;1mCreating SSH key (ed25519)...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mCreating SSH key (ed25519)...\033[0m"
 	@test -f $(PWD)/.contact || \
 	 bash -c 'read -p "Contact e-mail for SSH key: " contact \
 	 && echo "$${contact}" > $(PWD)/.contact'
@@ -38,7 +38,7 @@ ssh : | $(SSH_CONFIG) $(SSH_KEYS)
 ## Generate GitHub key pair
 
 %/id_github : | $(SSH_DIR)
-	@$(OUTPUT) "\033[32m==> \033[37;1mCreating SSH key (GitHub)...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mCreating SSH key (GitHub)...\033[0m"
 	@test -f $(PWD)/.github_contact || \
 	 bash -c 'read -p "Contact e-mail for GitHub SSH key: " contact \
 	 && echo "$${contact}" > $(PWD)/.github_contact'
@@ -51,11 +51,11 @@ ssh : | $(SSH_CONFIG) $(SSH_KEYS)
 	@git config --global user.signingKey "$$(<$@.pub)"
 	@git config --global gpg.format ssh
 	@git config --global gpg.ssh.allowedSignersFile $(HOME)/.config/git/allowed_signers
-	@$(OUTPUT) "\033[31m==> \033[37;1mDO NOT FORGET TO ADD SIGNING KEY TO GITHUB PROFILE...\033[0m"
+	@$(OUTPUT) "\033[31m==> \033[39;1mDO NOT FORGET TO ADD SIGNING KEY TO GITHUB PROFILE...\033[0m"
 
 ## Setup ssh user config directory
 $(SSH_DIR) :
-	@$(OUTPUT) "\033[32m==> \033[37;1mCreating ssh subdirectory...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mCreating ssh subdirectory...\033[0m"
 	@mkdir $@
 	@chmod 0700 $@
 	@touch $(addprefix $@/,authorized_keys)
@@ -68,7 +68,7 @@ $(SSH_DIR) :
 ## Update ssh user config
 ifdef SSH_AGENT_CONFIG
 $(SSH_CONFIG) : | $(SSH_DIR)
-	@$(OUTPUT) "\033[32m==> \033[37;1mCreating ssh configuration file...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mCreating ssh configuration file...\033[0m"
 	@touch $@
 	@chmod 0644 $@
 	@$(OUTPUT) $(SSH_AGENT_CONFIG) >> $@

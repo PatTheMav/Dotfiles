@@ -68,7 +68,7 @@ os-defaults : $(LAUNCH_AGENTS) $(addprefix $(LIBRARY)/Fonts/, $(SFMONO))
 	   result=$$(defaults read com.apple.dock "$${DEFAULT}" 2>/dev/null); \
 		 if (( result < 1 )) { \
 		 	 changed=1; \
-	     $(OUTPUT) "\033[32m==> \033[37;1mEnabling macOS default '$${DEFAULT}'...\033[0m"; \
+	     $(OUTPUT) "\033[32m==> \033[39;1mEnabling macOS default '$${DEFAULT}'...\033[0m"; \
 	     defaults write com.apple.dock "$${DEFAULT}" -bool YES; \
 	   }; \
 	 done; \
@@ -84,33 +84,33 @@ $(LIBRARY)/Fonts :
 
 ## Install launch agents in user library
 $(LIBRARY)/LaunchAgents/% : | $(LIBRARY)/LaunchAgents
-	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling LaunchAgent $@...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mInstalling LaunchAgent $@...\033[0m"
 	@cp $(addprefix $(PWD)/local/launchagents/,$(notdir $@)) $@
 	@launchctl load -w $@
 
 ## Install SF Mono font in user library
 $(LIBRARY)/Fonts/SF-Mono-%.otf : $(SFMONO_SOURCE)/SF-Mono-%.otf | $(LIBRARY)/Fonts
-	@$(OUTPUT) "\033[32m==> \033[37;1mCopy $(notdir $@) to $(dir $@)...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mCopy $(notdir $@) to $(dir $@)...\033[0m"
 	@cp $(SFMONO_SOURCE)/$(@F) $@
 
 ## Link GNU ls and GNU dircolors into Homebrew bin directory
 $(BREW_ROOT)/bin/ls $(BREW_ROOT)/bin/dircolors $(BREW_ROOT)/bin/chmod $(BREW_ROOT)/bin/chown : | $(BREW_ROOT)/Cellar/coreutils
-	@$(OUTPUT) "\033[32m==> \033[37;1mLinking $(notdir $@)...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mLinking $(notdir $@)...\033[0m"
 	@ln -Fsv $$(readlink $(BREW_ROOT)/bin/g$(notdir $@)) $@
 
 ## Install Homebrew
 $(PKG_CMD) : | $(CURL_CMD)
-	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling Homebrew...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mInstalling Homebrew...\033[0m"
 	@/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	@echo 'eval "$$($(PKG_CMD) shellenv)"' >> $(HOME)/.zprofile
 	@echo 'fpath=("$${HOMEBREW_PREFIX}/share/zsh/site-functions" $${fpath})' >> $(HOME)/.zprofile
 
 install-webdev : | $(PKG_CMD)
-	@$(OUTPUT) "\033[34m==> \033[37;1mInstalling Homebrew web development packages...\033[0m"
+	@$(OUTPUT) "\033[34m==> \033[39;1mInstalling Homebrew web development packages...\033[0m"
 	@$(PKG_CMD) bundle --file $(PWD)/Brewfile_WebDev
 
 install-systools : | $(PKG_CMD)
-	@$(OUTPUT) "\033[34m==> \033[37;1mInstalling Homebrew system utility packages...\033[0m"
+	@$(OUTPUT) "\033[34m==> \033[39;1mInstalling Homebrew system utility packages...\033[0m"
 	@$(PKG_CMD) bundle --file $(PWD)/Brewfile_System
 
 ## Activate zsh from Homebrew as default shell for current user
@@ -118,13 +118,13 @@ custom-zsh : | $(BREW_ROOT)/Cellar/zsh
 	@read -r _ CURRENT_SHELL < <(dscl . read $(HOME) UserShell); \
 	TARGET_SHELL=$$(which zsh); \
 	if [[ "$${CURRENT_SHELL}" != "$${TARGET_SHELL}" ]]; then \
-		$(OUTPUT) "\033[34m==> \033[37;1mSetting default shell to zsh (will ask for password)...\033[0m"; \
+		$(OUTPUT) "\033[34m==> \033[39;1mSetting default shell to zsh (will ask for password)...\033[0m"; \
 		sudo dscl . change $(HOME) UserShell $${CURRENT_SHELL} $${TARGET_SHELL}; \
 	fi
 
 ## Decrypt macOS files
 decrypt-macos : | $(LIBRARY)/Fonts
-	@$(OUTPUT) "\033[32m==> \033[37;1mDecrypting SF Mono PTM...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mDecrypting SF Mono PTM...\033[0m"
 	@sh -c 'curl_path="$$(echo "$(SFMONO_PTM_SOURCE)" | openssl base64 -A -d | openssl enc -d -aes-256-cbc -md sha512 -pbkdf2)"; \
 	cd $(PWD)/local/fonts/ && curl $$curl_path -s -o SF-Mono-PTM.tar.xz && tar -xJf SF-Mono-PTM.tar.xz && rm SF-Mono-PTM.tar.xz'
 	@rm -f $(HOME)/Library/Fonts/SF-Mono-PTM-*.otf(N)

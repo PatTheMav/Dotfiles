@@ -46,22 +46,22 @@ Makefile : | /usr/bin/git
 	@git fetch --quiet
 	@git update-index --assume-unchanged $(PWD)/gitconfig
 	@if ! git diff --quiet --exit-code HEAD $@; then \
-		$(OUTPUT) "\033[31m==> \033[37;1mUnable to update $@ - local changes detected.\033[0m"; \
+		$(OUTPUT) "\033[31m==> \033[39;1mUnable to update $@ - local changes detected.\033[0m"; \
 		return 0; \
 	fi
 	@if ! git diff --quiet --exit-code HEAD origin/master $@; then \
-		$(OUTPUT) "\033[32m==> \033[37;1mUpdating $@...\033[0m"; \
+		$(OUTPUT) "\033[32m==> \033[39;1mUpdating $@...\033[0m"; \
 		git checkout origin/master -- $@; \
 	fi
 
 make/%.mk : | /usr/bin/git
 	@git fetch --quiet
 	@if ! git diff --quiet --exit-code HEAD make/$@; then \
-		$(OUTPUT) "\033[31m==> \033[37;1mUnable to update $@ - local changes detected.\033[0m"; \
+		$(OUTPUT) "\033[31m==> \033[39;1mUnable to update $@ - local changes detected.\033[0m"; \
 		return 0; \
 	fi
 	@if ! git diff --quiet --exit-code HEAD origin/master make/$@; then \
-		$(OUTPUT) "\033[32m==> \033[37;1mUpdating $@...\033[0m"; \
+		$(OUTPUT) "\033[32m==> \033[39;1mUpdating $@...\033[0m"; \
 		git checkout origin/master -- make/$@; \
 	fi
 
@@ -82,7 +82,7 @@ update : | update-self update-packages $(UPDATE_HOOKS) $(PKG_FIXUPS)
 
 ## Update Dotfiles
 update-self :
-	@$(OUTPUT) "\033[32m==> \033[37;1mUpdating Dotfiles...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mUpdating Dotfiles...\033[0m"
 	@git pull origin master
 	@git submodule update --remote
 

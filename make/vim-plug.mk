@@ -27,7 +27,7 @@ endif
 
 ## Install vim-plug
 $(VIM_PLUG):
-	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling vim-plug...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mInstalling vim-plug...\033[0m"
 	@mkdir -p $(dir $(VIM_PLUG))
 	@curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 		https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -35,10 +35,10 @@ $(VIM_PLUG):
 
 ## Update hook for vim-plug modules
 vim-update : | $(VIM_BIN_LOCATION) $(VIM_PLUG)
-	@$(OUTPUT) "\033[32m==> \033[37;1mUpdating VIM plugins...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mUpdating VIM plugins...\033[0m"
 	@vim +PlugUpdate +PlugUpgrade +qall || true
 
 ## Clean hook for vim-plug modules
 vim-clean : | $(VIM_BIN_LOCATION) $(VIM_PLUG)
-	@$(OUTPUT) "\033[32m==> \033[37;1mCleaning up VIM plugins...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mCleaning up VIM plugins...\033[0m"
 	@vim +PlugClean +qall

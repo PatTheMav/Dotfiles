@@ -35,11 +35,11 @@ install-node : | $(node_LOCATION)
 	@npm install -g $(node_modules)
 
 $(node_modules_LOCATION)/% : | $(node_LOCATION)
-	@$(OUTPUT) "\033[32m==> \033[37;1mInstalling npm package $(notdir $@)...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mInstalling npm package $(notdir $@)...\033[0m"
 	@npm install -g $(notdir $@)
 
 update-node : | $(node_LOCATION)
-	@$(OUTPUT) "\033[32m==> \033[37;1mUpdating npm packages...\033[0m"
+	@$(OUTPUT) "\033[32m==> \033[39;1mUpdating npm packages...\033[0m"
 	@npm -gp outdated | cut -d: -f4 | xargs -n1 npm -g install || true
 endif
 endif

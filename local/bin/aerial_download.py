@@ -385,7 +385,8 @@ def _parse_aerial_files():
         "tvOS 13": "https://sylvan.apple.com/Aerials/resources-13.tar",
         "tvOS 10": "http://a1.phobos.apple.com/us/r1000/000/Features/atv/AutumnResources/videos/entries.json",
         "macOS 14": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-14-0-3.tar",
-        "macOS 15": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-14-0-10.tar"
+        "macOS 15": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-15-0-2.tar",
+        "macOS 26": "https://sylvan.apple.com/itunes-assets/Aerials126/v4/82/2e/34/822e344c-f5d2-878c-3d56-508d5b09ed61/resources-26-0-0.tar",
     }
 
     for version, source_url in video_list.items():
@@ -499,6 +500,7 @@ def _start_download(file_list, formats):
 
                         if file_size == total:
                             print(f"[*] Skipping '{destination}'...\n")
+                            time.sleep(1)
                             continue
 
                     with open(destination, "wb") as local_file:

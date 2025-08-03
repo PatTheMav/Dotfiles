@@ -77,7 +77,6 @@
 	"ignored_packages":
 	[
 		"AutoDocstring",
-		"JsPrettier",
 		"LSP-css",
 		"LSP-html",
 		"LSP-intelephense",

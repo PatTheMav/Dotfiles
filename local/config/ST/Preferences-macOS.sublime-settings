@@ -77,11 +77,14 @@
 	"ignored_packages":
 	[
 		"AutoDocstring",
+		"LSP-clangd",
 		"LSP-css",
 		"LSP-html",
 		"LSP-intelephense",
+		"LSP-lua",
 		"LSP-pyright",
 		"LSP-rust-analyzer",
+		"LSP-SourceKit",
 		"LSP-typescript",
 		"LSP-vue",
 		"python-black",

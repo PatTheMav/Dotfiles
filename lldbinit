@@ -1,1 +1,2 @@
 settings set target.max-string-summary-length 10000
+settings set escape-non-printables false
